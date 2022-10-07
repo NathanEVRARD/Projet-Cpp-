@@ -1,6 +1,4 @@
-#include <iostream>
-using namespace std;
-#include "Modele.h"
+#include "modele.h" 
 
 // Quelques conseils avant de commencer...
 // * N'oubliez pas de tracer (cout << ...) tous les constructeurs et le destructeur !!! Ca, c'est pas un conseil,
@@ -14,10 +12,16 @@ using namespace std;
 //   de la classe, le .cpp contenant la definition des methodes, et ensuite le makefile permettant de compiler
 //   le tout grace a la commande make 
 
+
+
 int main()
 {
   cout << endl << "(1) ***** Test constructeur par defaut + Affiche ************************" << endl;
   {
+    #ifdef DEBUG
+    cout << "DEBUUUUUUUUUUUUUUUUUUUUUUUUUUG" << endl;
+    #endif
+    
     Modele modele;
     modele.Affiche();
   } // La presence des accolades assure que le destructeur de Modele sera appele --> a tracer !
