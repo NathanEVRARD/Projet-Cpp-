@@ -37,14 +37,21 @@ Voiture::Voiture(string n, Modele m)
 
 Voiture::Voiture(const Voiture& v)
 {
-	setNom(v.nomProjet);
-	setModele(v.modele);
-	cout << "ZEBI !" << endl;
-	for(int i = 0; i < NBR_OPTIONS; i++)
+	int i;
+
+	setNom(v.getNom());
+	setModele(v.getModele());
+	
+	for(i = 0; i < NBR_OPTIONS; i++)
+	{
+		options[i] = NULL;
+	}
+
+	for(i = 0; i < NBR_OPTIONS; i++)
 	{
 		if(v.options[i] != NULL)
 		{
-			setOption(v.options[i]);
+			AjouteOption(*v.options[i]);
 		}
 	}
 }
@@ -53,13 +60,11 @@ Voiture::Voiture(const Voiture& v)
 
 Voiture::~Voiture()
 {
-	/*for(int i = 0; i < NBR_OPTIONS; i++)
+	for(int i = 0; i < NBR_OPTIONS; i++)
 	{
 		if(options[i] != NULL)
 			RetireOption(options[i]->getCode());
-	}*/
-
-	
+	}
 }
 
 //-------------------  SETTERS ET GETTERS  ----------------
@@ -125,8 +130,7 @@ void Voiture::AjouteOption(const Option& o)
 	{
 		if(options[i] == NULL)
 		{
-			op = new Option;
-			*op = o;
+			op = new Option(o);
 			options[i] = op;
 			i+= NBR_OPTIONS;
 		}
@@ -153,6 +157,7 @@ void Voiture::RetireOption(string c)
 
 void Voiture::Affiche()
 {
+	
 	cout << "Nom du projet : " << getNom() << endl << "Modele : ";
 	getModele().Affiche();
 	int i = 0;
@@ -160,7 +165,7 @@ void Voiture::Affiche()
 	{
 		if(options[i] != NULL)
 		{
-			options[i]->Affiche();	
+			options[i]->Affiche();
 		}
 		i++;
 	}

@@ -41,8 +41,8 @@ int main()
     // et surtout si celui de Option est appele un nombre de fois suffisant !
   }
 
-  // cout << "(7) ***** on regarde si le projet de depart n'a pas ete modifie ********************" << endl;
-  // voiture.Affiche();
+  cout << "(7) ***** on regarde si le projet de depart n'a pas ete modifie ********************" << endl;
+  voiture.Affiche();
 
   return 0;
 }
