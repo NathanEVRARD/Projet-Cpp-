@@ -4,6 +4,10 @@
 
 Option::Option()
 {
+	#ifdef DEBUG
+  	cout << "Constructeur par défaut ! (Option)" << endl << endl;
+  	#endif
+
 	setCode("Code");
 	setIntitule("Intitule");
 	setPrix(0);
@@ -11,6 +15,10 @@ Option::Option()
 
 Option::Option(string c, string i, float p)
 {
+	#ifdef DEBUG
+	cout << "Constructeur initialisation ! (Option)" << endl << endl;
+	#endif
+
 	setCode(c);
 	setIntitule(i);
 	setPrix(p);
@@ -18,16 +26,22 @@ Option::Option(string c, string i, float p)
 
 Option::Option(const Option& o)
 {
-	setCode(o.code);
-	setIntitule(o.intitule);
-	setPrix(o.prix);
+	#ifdef DEBUG
+  	cout << "Constructeur de copie ! (Option)" << endl << endl;
+  	#endif
+
+	setCode(o.getCode());
+	setIntitule(o.getIntitule());
+	setPrix(o.getPrix());
 }
 
 //----------------  DESTRUCTEUR  -----------------------------
 
 Option::~Option()
 {
-
+	#ifdef DEBUG
+	  cout << "Destructeur ! (Option)" << endl << endl;
+	  #endif
 }
 
 //----------------  SETTERS  ---------------------------------

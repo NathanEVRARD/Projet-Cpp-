@@ -11,6 +11,10 @@ using namespace std;
 
 Voiture::Voiture(void)
 {
+	#ifdef DEBUG
+  	cout << "Constructeur par défaut ! (Voiture)" << endl << endl;
+  	#endif
+
 	setNom("Nom");
 	Modele m;
 	setModele(m);
@@ -25,6 +29,10 @@ Voiture::Voiture(void)
 Voiture::Voiture(string n, Modele m)
 {
 
+	#ifdef DEBUG
+	cout << "Constructeur initialisation ! (Voiture)" << endl << endl;
+	#endif
+
 	setNom(n);
 	setModele(m);
 	int i = 0;
@@ -37,6 +45,11 @@ Voiture::Voiture(string n, Modele m)
 
 Voiture::Voiture(const Voiture& v)
 {
+
+	#ifdef DEBUG
+  	cout << "Constructeur de copie ! (Voiture)" << endl << endl;
+  	#endif
+
 	int i;
 
 	setNom(v.getNom());
@@ -60,6 +73,10 @@ Voiture::Voiture(const Voiture& v)
 
 Voiture::~Voiture()
 {
+	#ifdef DEBUG
+  	cout << "Destructeur ! (Voiture)" << endl << endl;
+  	#endif
+
 	for(int i = 0; i < NBR_OPTIONS; i++)
 	{
 		if(options[i] != NULL)
@@ -71,25 +88,15 @@ Voiture::~Voiture()
 
 void Voiture::setNom(string n)
 {
-	
 	nomProjet = n;
 }
 
 void Voiture::setModele(Modele m)
 {
-	modele = m;
-}
-
-void Voiture::setOption(Option *o)
-{
-	for(int i = 0; i < NBR_OPTIONS; i++)
-	{
-		if(options[i] == NULL)
-		{
-			options[i] = o;
-			i += NBR_OPTIONS;
-		}
-	}
+	modele.setNom(m.getNom());
+	modele.setPuissance(m.getPuissance());
+	modele.setMoteur(m.getMoteur());
+	modele.setPrixDeBase(m.getPrixDeBase());
 }
 
 string Voiture::getNom() const

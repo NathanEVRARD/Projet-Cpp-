@@ -9,12 +9,15 @@ Modele::Modele(void) // Par défaut
   #endif
   nom = NULL;
   setNom("nom");
+  setPuissance(0);
+  setMoteur(Essence);
+  setPrixDeBase(0.0f);
 }
 
 Modele::Modele(char const *temp, int puissance, enum Moteur moteur, float prix) // D'initialisation
 {
   #ifdef DEBUG
-  cout << "Constructeur initialisation !" << endl << endl;
+  cout << "Constructeur initialisation ! (Modele)" << endl << endl;
   #endif
   nom = NULL;
 
@@ -26,11 +29,15 @@ Modele::Modele(char const *temp, int puissance, enum Moteur moteur, float prix) 
 
 Modele::Modele(const Modele& m) // De copie
 {
+  #ifdef DEBUG
+  cout << "Constructeur de copie ! (Modele)" << endl << endl;
+  #endif
+
   nom = NULL;
-  setNom(m.nom);
-  setPuissance(m.puissance);
-  setMoteur(m.moteur);
-  setPrixDeBase(m.prix);
+  setNom(m.getNom());
+  setPuissance(m.getPuissance());
+  setMoteur(m.getMoteur());
+  setPrixDeBase(m.getPrixDeBase());
 }
 
 //---------------  DESTRUCTEUR  -----------------------------------------
@@ -38,7 +45,7 @@ Modele::Modele(const Modele& m) // De copie
 Modele::~Modele()
 {
   #ifdef DEBUG
-  cout << endl << "Destructeur !" << endl << endl;
+  cout << endl << "Destructeur ! (Modele)" << endl << endl;
   #endif
 }
 
@@ -55,11 +62,15 @@ void Modele::setNom(char const *n)
 
 void Modele::setPuissance(int p)
 {
+  if(p < 0) return;
+
   puissance = p;
 }
 
 void Modele::setMoteur(enum Moteur m)
 {
+  if(moteur < 0 || moteur > 3) return;
+
   moteur = m;
 }
 
@@ -96,7 +107,8 @@ float Modele::getPrixDeBase() const
 
 void Modele::Affiche() const
 {
-  cout << getNom();
+  if(nom != NULL)
+    cout << getNom();
   cout << "(" << getPuissance() << ", ";
 
   switch(getMoteur())

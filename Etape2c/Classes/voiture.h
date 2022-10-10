@@ -24,7 +24,6 @@ public:
 
   void setNom(string);
   void setModele(Modele);
-  void setOption(Option*);
 
   string getNom() const;
   Modele getModele() const;
