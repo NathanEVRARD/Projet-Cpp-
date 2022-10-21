@@ -27,6 +27,8 @@ public:
 	string getIntitule(void) const;
 	float getPrix(void) const;
 
+	Option operator>>(Option& o);
+
 	void Affiche(void) const;
 };
 

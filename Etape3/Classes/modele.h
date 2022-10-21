@@ -39,6 +39,10 @@ public:
   enum Moteur getMoteur() const;
   float getPrixDeBase() const;
 
+  //--------------- OPERATEURS  ------------------------------------------
+
+  
+
   //---------------  AUTRES METHODES  -------------------------------------
 
   void Affiche() const;

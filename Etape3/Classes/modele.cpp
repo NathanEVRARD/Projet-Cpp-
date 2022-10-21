@@ -103,6 +103,10 @@ float Modele::getPrixDeBase() const
   return prix;
 }
 
+//---------------  OPERATEURS  ------------------------------------------
+
+
+
 //---------------  AUTRES METHODES  -------------------------------------
 
 void Modele::Affiche() const

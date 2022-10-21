@@ -78,6 +78,13 @@ float Option::getPrix(void) const
 	return prix;
 }
 
+//---------------- OPERATEURS  -------------------------------
+
+Option Option::operator>>(Option& o)
+{
+  
+}
+
 //----------------  AUTRES FONCTIONS  ------------------------
 
 void Option::Affiche(void) const

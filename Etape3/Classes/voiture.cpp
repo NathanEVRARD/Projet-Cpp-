@@ -157,7 +157,11 @@ Voiture& Voiture::operator=(const Voiture& v)
 
 Voiture operator+(const Option& o, const Voiture& v)
 {
-	return v + o;
+	Voiture vtemp(v);
+
+	vtemp.AjouteOption(o);
+
+	return vtemp;
 }
 
 Voiture Voiture::operator+(const Option& o)
@@ -169,22 +173,22 @@ Voiture Voiture::operator+(const Option& o)
 	return vtemp;
 }
 
-Voiture operator-(const Voiture& v, const Option& o)
+Voiture Voiture::operator-(const string s)
 {
-	Voiture vtemp(v);
+	Voiture vtemp(*this);
+
+	vtemp.RetireOption(s);
+
+	return vtemp;
+}
+
+Voiture Voiture::operator-(const Option& o)
+{
+	Voiture vtemp(*this);
 
 	vtemp.RetireOption(o.getCode());
 
-	return(vtemp);
-}
-
-Voiture operator-(const Voiture& v, string c)
-{
-	Voiture vtemp(v);
-
-	vtemp.RetireOption(c);
-
-	return(vtemp);
+	return vtemp;
 }
 
 int Voiture::operator<(const Voiture& v)

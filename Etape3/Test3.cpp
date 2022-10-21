@@ -176,14 +176,14 @@ void Essai4()
 /*******************************************************************************************************/
 void Essai5()
 {
-  // cout << "**********************************************************************" << endl;
-  // cout << "(5) ***** Tests des opérateurs << et >> de Option ********************" << endl;
-  // cout << "**********************************************************************" << endl;
-  // Option o;
-  // cout << "Saisissez une nouvelle option :" << endl;
-  // cin >> o;
-  // cout << endl << "Voici l'option que vous avez encodee :" << endl;
-  // cout << o << endl << endl;
+  cout << "**********************************************************************" << endl;
+  cout << "(5) ***** Tests des opérateurs << et >> de Option ********************" << endl;
+  cout << "**********************************************************************" << endl;
+  Option o;
+  cout << "Saisissez une nouvelle option :" << endl;
+  cin >> o;
+  cout << endl << "Voici l'option que vous avez encodee :" << endl;
+  cout << o << endl << endl;
 }
 
 /*******************************************************************************************************/

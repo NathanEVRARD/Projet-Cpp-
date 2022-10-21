@@ -10,9 +10,7 @@ using namespace std;
 
 class Voiture
 {
-  friend Voiture operator+(const Option o, const Voiture v);
-  friend Voiture operator-(const Voiture& v, const Option& o);
-  friend Voiture operator-(const Voiture& v, string c);
+  friend Voiture operator+(const Option& o, const Voiture& v);
 
 private:
   string nomProjet;
@@ -35,7 +33,9 @@ public:
   float getPrix() const;
 
   Voiture& operator=(const Voiture&);
-  Voiture operator+(const Option o);
+  Voiture operator+(const Option& o);
+  Voiture operator-(const string s);
+  Voiture operator-(const Option& o);
   int operator<(const Voiture&);
   int operator>(const Voiture&);
   int operator==(const Voiture&);
