@@ -8,6 +8,9 @@ using namespace std;
 
 class Option
 {
+	friend istream& operator>>(istream& s, Option o);
+	friend ostream& operator<<(ostream& s, Option o);
+
 private:
 	string code;
 	string intitule;
@@ -27,7 +30,8 @@ public:
 	string getIntitule(void) const;
 	float getPrix(void) const;
 
-	Option operator>>(Option& o);
+	Option operator--();
+	Option operator--(int);
 
 	void Affiche(void) const;
 };

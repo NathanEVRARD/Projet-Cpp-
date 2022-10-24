@@ -11,6 +11,7 @@ using namespace std;
 class Voiture
 {
   friend Voiture operator+(const Option& o, const Voiture& v);
+  friend ostream& operator<<(ostream& s, Voiture& v);
 
 private:
   string nomProjet;
@@ -39,6 +40,7 @@ public:
   int operator<(const Voiture&);
   int operator>(const Voiture&);
   int operator==(const Voiture&);
+  Option* operator[](int);
 
   void AjouteOption(const Option&);
   void RetireOption(string);

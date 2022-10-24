@@ -103,9 +103,61 @@ float Modele::getPrixDeBase() const
   return prix;
 }
 
+string Modele::getStrMoteur() const
+{
+  string s;
+
+  switch(getMoteur())
+  {
+    case 0:
+      s = "Essence";
+      break;
+    case 1:
+      s = "Diesel";
+      break;
+    case 2:
+      s = "Electrique";
+      break;
+    case 3:
+      s = "Hybride";
+      break;
+
+    default:
+      s = "Moteur";
+      break;
+  }
+
+  return s;
+}
+
 //---------------  OPERATEURS  ------------------------------------------
 
+istream& operator>>(istream& s, Modele& m)
+{
+  char nomTemp[30];
+  int puissanceTemp;
+  int moteurTemp;
+  float prixTemp;
 
+  cout << "Saisissez le nom du modele : "; s >> nomTemp;
+  cout << "Saisissez la puissance du modele : "; s >> puissanceTemp;
+  cout << "Saisissez le moteur du modele :" << endl << "(0)-> Essence" << endl << "(1)-> Diesel" << endl << "(2)-> Electrique" << endl << "(3)-> Hybride" << endl << endl << "Votre choix : "; s >> moteurTemp;
+  cout << "Saisissez le prix de base du modele : "; s >> prixTemp;
+
+  m.setNom(nomTemp);
+  m.setPuissance(puissanceTemp);
+  m.setMoteur((enum Moteur)moteurTemp);
+  m.setPrixDeBase(prixTemp);
+
+  return s;
+}
+
+ostream& operator<<(ostream& s, Modele& m)
+{
+  s << m.getNom() << "(" << m.getPuissance() << ", " << m.getStrMoteur() << ", " << m.getPrixDeBase() << ")" << endl;
+
+  return s;
+}
 
 //---------------  AUTRES METHODES  -------------------------------------
 
@@ -115,25 +167,7 @@ void Modele::Affiche() const
     cout << getNom();
   cout << "(" << getPuissance() << ", ";
 
-  switch(getMoteur())
-  {
-    case 0:
-      cout << "Essence";
-      break;
-    case 1:
-      cout << "Diesel";
-      break;
-    case 2:
-      cout << "Electrique";
-      break;
-    case 3:
-      cout << "Hybride";
-      break;
-
-    default:
-      cout << "Moteur";
-      break;
-  }
+  cout << getStrMoteur();
   cout << ", ";
 
   cout << getPrixDeBase() << ")" << endl << endl; 

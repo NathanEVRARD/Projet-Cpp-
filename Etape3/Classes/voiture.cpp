@@ -215,6 +215,26 @@ int Voiture::operator==(const Voiture&v)
 		return 0;
 }
 
+ostream& operator<<(ostream& s, Voiture& v)
+{
+	int i;
+	Option *p;
+	s << "Modele : ";
+	v.getModele().Affiche();
+
+	for(i = 0; i < NBR_OPTIONS && v.options[i] != NULL; i++)
+	{
+		v.options[i]->Affiche();
+	}
+
+	return s;
+}
+
+Option* Voiture::operator[](int i)
+{
+	return this->options[i];
+}
+
 //--------------------  AUTRES FONCTIONS  --------------------
 
 void Voiture::AjouteOption(const Option& o)

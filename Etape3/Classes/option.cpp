@@ -80,10 +80,44 @@ float Option::getPrix(void) const
 
 //---------------- OPERATEURS  -------------------------------
 
-Option Option::operator>>(Option& o)
+istream& operator>>(istream& s, Option o)
 {
-  
+	string codeTemp, intituleTemp;
+	float prixTemp;
+
+  cout << "Saisissez le code de l'option : "; s >> codeTemp;
+  cout << "Saisissez l'intitule de l'option : "; s >> intituleTemp;
+  cout << "Saisissez le prix de l'option : "; s >> prixTemp;
+
+  o.setCode(codeTemp);
+  o.setIntitule(intituleTemp);
+  o.setPrix(prixTemp);
+
+  return s;
 }
+
+ostream& operator<<(ostream& s, Option o)
+{
+	s << o.getCode() << "(" << o.getIntitule() << ", " << o.getPrix() << ")";
+
+	return s;
+}
+Option Option::operator--()
+{
+	setPrix(this->getPrix() - 50);
+
+	return (*this);
+}
+
+Option Option::operator--(int)
+{
+	Option otemp(*this);
+
+	setPrix(this->getPrix() - 50);
+
+	return otemp;
+}
+
 
 //----------------  AUTRES FONCTIONS  ------------------------
 

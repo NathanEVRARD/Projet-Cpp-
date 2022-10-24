@@ -10,6 +10,9 @@ enum Moteur {Essence, Diesel, Electrique, Hybride};
 
 class Modele
 {
+  friend istream& operator>>(istream& s, Modele& m);
+  friend ostream& operator<<(ostream& s, Modele& m);
+
 private:
   char *nom;
   int puissance;
@@ -38,6 +41,7 @@ public:
   int getPuissance() const;
   enum Moteur getMoteur() const;
   float getPrixDeBase() const;
+  string getStrMoteur() const;
 
   //--------------- OPERATEURS  ------------------------------------------
 
