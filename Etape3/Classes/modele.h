@@ -26,7 +26,7 @@ public:
   Modele(char const *temp, int puissance, enum Moteur moteur, float prix);
   Modele(const Modele& m);
 
-  //---------------  DESTRUCTEUR  -----------------------------------------
+  //----------------  DESTRUCTEUR  ----------------------------------------
 
   ~Modele();
 

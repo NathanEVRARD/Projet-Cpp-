@@ -30,8 +30,8 @@ public:
 	string getIntitule(void) const;
 	float getPrix(void) const;
 
-	Option operator--();
-	Option operator--(int);
+	Option operator--(); // pré-décrémentation
+	Option operator--(int);// post-décrémentation
 
 	void Affiche(void) const;
 };

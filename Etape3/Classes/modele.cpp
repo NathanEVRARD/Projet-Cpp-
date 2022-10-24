@@ -130,7 +130,7 @@ string Modele::getStrMoteur() const
   return s;
 }
 
-//---------------  OPERATEURS  ------------------------------------------
+//----------------  OPERATEURS  ------------------------------------
 
 istream& operator>>(istream& s, Modele& m)
 {

@@ -71,7 +71,7 @@ Voiture::Voiture(const Voiture& v)
 	}
 }
 
-//-------------------  DESTRUCTEUR  ---------------------
+//-------------------  DESTRUCTEUR  ----------------------
 
 Voiture::~Voiture()
 {
@@ -86,7 +86,7 @@ Voiture::~Voiture()
 	}
 }
 
-//-------------------  SETTERS ET GETTERS  ----------------
+//-------------------  SETTERS ET GETTERS  -----------------
 
 void Voiture::setNom(string n)
 {

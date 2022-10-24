@@ -40,7 +40,7 @@ public:
   int operator<(const Voiture&);
   int operator>(const Voiture&);
   int operator==(const Voiture&);
-  Option* operator[](int);
+  Option* operator[](int); // Recherche options n°i
 
   void AjouteOption(const Option&);
   void RetireOption(string);

@@ -78,7 +78,7 @@ float Option::getPrix(void) const
 	return prix;
 }
 
-//---------------- OPERATEURS  -------------------------------
+//---------------- OPERATEURS  --------------------------------
 
 istream& operator>>(istream& s, Option o)
 {
