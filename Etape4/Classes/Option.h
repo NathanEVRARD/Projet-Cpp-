@@ -8,7 +8,7 @@ using namespace std;
 
 class Option
 {
-	friend istream& operator>>(istream& s, Option& o);
+	friend istream& operator>>(istream& s, Option o);
 	friend ostream& operator<<(ostream& s, Option o);
 
 private:

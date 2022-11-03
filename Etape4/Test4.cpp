@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
-#include "Personne.h"
-#include "Client.h"
-#include "Employe.h"
+#include "Classes/Personne.h"
+#include "Classes/Client.h"
+#include "Classes/Employe.h"
 
 int  Menu();
 void Essai1();

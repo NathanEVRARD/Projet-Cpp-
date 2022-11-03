@@ -1,10 +1,13 @@
-#include "voiture.h"
-#include "option.h"
+#include "Voiture.h"
+#include "Option.h"
 #include <iostream>
 
 #define NBR_OPTIONS 5
 
 using namespace std;
+
+//-------------------  FONCTIONS AMIES  ------------------- 
+
 
 //-------------------  CONSTRUCTEURS  ---------------------
 

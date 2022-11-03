@@ -1,4 +1,4 @@
-#include "option.h"
+#include "Option.h"
 
 //----------------  CONSTRUCTEURS  ---------------------------
 
@@ -80,7 +80,7 @@ float Option::getPrix(void) const
 
 //---------------- OPERATEURS  --------------------------------
 
-istream& operator>>(istream& s, Option& o)
+istream& operator>>(istream& s, Option o)
 {
 	string codeTemp, intituleTemp;
 	float prixTemp;
