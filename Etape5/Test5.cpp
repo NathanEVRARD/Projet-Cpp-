@@ -2,11 +2,11 @@
 #include <string>
 using namespace std;
 
-#include "Option.h"
-#include "OptionException.h"
-#include "Voiture.h" 
-#include "Employe.h"
-#include "PasswordException.h"
+#include "Classes/Option.h"
+#include "Classes/OptionException.h"
+#include "Classes/Voiture.h" 
+#include "Classes/Employe.h"
+#include "Classes/PasswordException.h"
 
 int  Menu();
 void Essai1();
@@ -69,7 +69,7 @@ void Essai1()
   // A COMPLETER : Traitez l'exception susceptible d'etre lancee par le bloc de code suivant (try...catch)
   // en particulier : afficher le message de l'exception lancee
 
-  // ...
+  try
   {
     cout << "----- 1.1 Test des setters la classe Option -----------------------------------" << endl;
     Option o1;
@@ -107,7 +107,14 @@ void Essai1()
     cout << "Nouvelle ristourne de 50 euros sur la derniere option encodee..." << endl;
     cout << "Voici l'option apres ristourne : " << --o2 << endl;  // !!!
   }
-  // ...
+  catch(OptionException& e)
+  {
+    cout << endl << "Exception (OptionException) : " << e.getMessage() << endl;
+  }
+  catch(...)
+  {
+    cout << endl << "Exception (Par defaut) " << endl;
+  }
   
   cout << endl;
 }
@@ -119,7 +126,7 @@ void Essai2()
   // A COMPLETER : Traitez l'exception susceptible d'etre lancee par le bloc de code suivant (try...catch)
   // en particulier : afficher le message de l'exception lancee
 
-  // ...
+  try
   {
     cout << "----- 2.1 Creation d'une voiture sans options -----------------------------------" << endl;
     Voiture v1("Projet_208_MrDugenou",Modele("208 Access 1.0",68,Essence,12500.0f));
@@ -158,7 +165,14 @@ void Essai2()
     cout << "----- 2.4 La voiture apres le retrait de l'option -------------------------------" << endl;
     cout << v1 << endl;
   }
-  // ...
+  catch(OptionException& e)
+  {
+    cout << "Exception (OptionException) : " << e.getMessage() << endl;
+  }
+  catch(...)
+  {
+    cout << "Exception (OptionException) !" << endl;
+  }
   
   cout << endl;
 }
@@ -170,7 +184,7 @@ void Essai3()
   // A COMPLETER : Traitez l'exception susceptible d'etre lancee par le bloc de code suivant (try...catch)
   // en particulier : Tester le code de l'erreur et affiche la cause exacte de l'erreur.
 
-  // ...
+  try
   {
     Employe e1("Dupont","Michel",2,"dupomich",Employe::ADMINISTRATIF);
     cout << e1 << endl << endl;
@@ -188,8 +202,31 @@ void Essai3()
     cout << "Affichage du mot de passe :" << endl;
     cout << "Mot de passe = " << e1.getMotDePasse() << endl;  // !!!
   }
-  // ...
-  
+  catch(PasswordException& p)
+  {
+    string erreur;
+
+    cout << "Exception (PasswordException) : ";
+    switch(p.getCode())
+    {
+      case 1:
+        erreur = "INVALID_LENGTH";
+        break;
+      case 2:
+        erreur = "ALPHA_MISSING";
+        break;
+      case 3:
+        erreur = "DIGIT_MISSING";
+        break;
+      case 4:
+        erreur = "NO_PASSWORD";
+        break;
+      default:
+        erreur = "UNKNOW_ERROR";
+        break;
+    }
+    cout << erreur << endl;
+  }
   cout << endl;
 }
 
@@ -199,7 +236,7 @@ void Essai4()
   cout << "----- 4. Gestion de plusieurs exceptions simultanement ---" << endl;
   // A COMPLETER : Traitez TOUTES les exceptions susceptible d'etre lancee par le bloc de code suivant (try...catch)
 
-  // ...
+  try
   {
     Option o;
     cout << "Encodez une option : " << endl;
@@ -209,12 +246,43 @@ void Essai4()
     cout << e1 << endl;
     cout << "Encodez son mot de passe : ";
     string mdp;
-    getline(cin,mdp);
+    cin >> mdp;
     e1.setMotDePasse(mdp);
     cout << "Affichage du mot de passe :" << endl;
     cout << "Mot de passe = " << e1.getMotDePasse() << endl;
   }
-  // ...
-  
+  catch(OptionException& e)
+  {
+    cout << "Exception (OptionException) : " << e.getMessage() << endl;
+  }
+  catch(PasswordException& p)
+  {
+    string erreur;
+
+    cout << "Exception (PasswordException) : ";
+    switch(p.getCode())
+    {
+      case 1:
+        erreur = "INVALID_LENGTH";
+        break;
+      case 2:
+        erreur = "ALPHA_MISSING";
+        break;
+      case 3:
+        erreur = "DIGIT_MISSING";
+        break;
+      case 4:
+        erreur = "NO_PASSWORD";
+        break;
+      default:
+        erreur = "UNKNOW_ERROR";
+        break;
+    }
+    cout << erreur << endl;
+  }
+  catch(...)
+  {
+    cout << "Exception inconnue !" << endl;
+  }
   cout << endl;
 }
