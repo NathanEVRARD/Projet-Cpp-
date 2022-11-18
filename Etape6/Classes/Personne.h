@@ -18,7 +18,7 @@ protected:
 public:
 	Personne();
 	Personne(string nom, string prenom);
-	Personne(Personne&);
+	Personne(const Personne&);
 
 	virtual ~Personne();
 

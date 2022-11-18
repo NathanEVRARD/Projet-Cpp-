@@ -2,7 +2,7 @@
 
 
 Test4:	Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o Test4.cpp
-	g++ Test4.cpp Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o -o Test4 -D DEBUG 
+	g++ Test4.cpp Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o -o Test4
 
 Classes/Employe.o:	Classes/Employe.cpp Classes/Employe.h
 	g++ -c Classes/Employe.cpp -o Classes/Employe.o

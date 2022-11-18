@@ -24,15 +24,12 @@ Client::Client(string n, string p, int num, string g) : Intervenant(num, n, p)
 	setGsm(g);
 }
 
-Client::Client(Client& c)
+Client::Client(Client& c) : Intervenant(c)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Client)" << endl;
 	#endif
 
-	setNumero(c.getNumero());
-	setNom(c.getNom());
-	setPrenom(c.getPrenom());
 	setGsm(c.getGsm());
 }
 
@@ -86,9 +83,7 @@ string Client::ToString()
 
 Client& Client::operator=(Client& c)
 {
-	Personne::setNom(c.Personne::getNom());
-	Personne::setPrenom(c.Personne::getPrenom());
-	Intervenant::setNumero(c.Intervenant::getNumero());
+	Intervenant::operator=(c);
 	setGsm(c.getGsm());
 
 	return (*this);

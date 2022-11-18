@@ -8,14 +8,14 @@ using namespace std;
 
 class Intervenant : public Personne
 {
-private:
+protected:
 	int numero;
 public:
 	Intervenant();
 	Intervenant(int, string, string);
-	Intervenant(Intervenant&);
+	Intervenant(const Intervenant&);
 
-	~Intervenant();
+	virtual ~Intervenant();
 
 	void setNumero(int);
 

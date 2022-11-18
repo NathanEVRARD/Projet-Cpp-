@@ -14,6 +14,7 @@ private:
 	string login;
 	string *motDePasse = NULL;
 	string fonction;
+	
 
 public:
 	static string ADMINISTRATIF;

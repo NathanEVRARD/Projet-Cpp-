@@ -1,7 +1,4 @@
 #include "Client.h"
-#include <iostream>
-
-using namespace std;
 
 //---------------------  CONSTRUCTEURS --------------------------------
 
@@ -20,11 +17,10 @@ Client::Client(string n, string p, int num, string g) : Intervenant(num, n, p)
 		cout << "Constructeur d'initialisation ! (Client)" << endl;
 	#endif
 
-
 	setGsm(g);
 }
 
-Client::Client(Client& c) : Client(c)
+Client::Client(const Client& c) : Intervenant(c)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Client)" << endl;
@@ -84,7 +80,7 @@ string Client::ToString()
 
 //--------------------  OPERATEURS  ------------------------------------
 
-Client& Client::operator=(Client& c)
+Client& Client::operator=(const Client& c)
 {
 	Personne::setNom(c.Personne::getNom());
 	Personne::setPrenom(c.Personne::getPrenom());
@@ -92,10 +88,9 @@ Client& Client::operator=(Client& c)
 	setGsm(c.getGsm());
 
 	return (*this);
-
 }
 
-ostream& operator<<(ostream& s, Client& c)
+ostream& operator<<(ostream& s, const Client& c)
 {
 	s << c.getPrenom() << " " << c.getNom() << "(" << c.getNumero() << ", " << c.getGsm() << ")";
 

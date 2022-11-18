@@ -21,7 +21,7 @@ Personne::Personne(string nom, string prenom)
 	setPrenom(prenom);
 }
 
-Personne::Personne(Personne& p)
+Personne::Personne(const Personne& p)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Personne)" << endl;
@@ -86,8 +86,8 @@ istream& operator>>(istream& s, Personne& p)
 {
 	string nom, prenom;
 
-	cout << "Saisissez le nom de la personne : "; getline(s, nom); p.setNom(nom);
-	cout << "Saisissez le preonm de la personne : "; getline(s, prenom); p.setPrenom(prenom);
+	cout << "Saisissez le nom de la personne : "; s >> nom; p.setNom(nom);
+	cout << "Saisissez le preonm de la personne : "; s >> prenom; p.setPrenom(prenom);
 
 	return s;
 }

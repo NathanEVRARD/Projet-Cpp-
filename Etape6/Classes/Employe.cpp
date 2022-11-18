@@ -1,5 +1,6 @@
 #include "Employe.h"
 #include "Intervenant.h"
+#include "PasswordException.h"
 
 string Employe::VENDEUR = "VENDEUR";
 string Employe::ADMINISTRATIF = "ADMINISTRATIF";
@@ -28,12 +29,15 @@ Employe::Employe(string n, string p, int num, string l, string f) : Intervenant(
 	resetMotDePasse();
 }
 
-Employe::Employe(Employe& e) : Intervenant(e)
+Employe::Employe(Employe& e)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Employe)" << endl;
 	#endif
 
+	setNumero(e.getNumero());
+	setNom(e.getNom());
+	setPrenom(e.getPrenom());
 	setLogin(e.getLogin());
 	setFonction(e.getFonction());
 	setMotDePasse(e.getMotDePasse());
@@ -64,6 +68,34 @@ void Employe::setFonction(string f)
 
 void Employe::setMotDePasse(string m)
 {
+	int i, alpha = 0, digit = 0;
+
+	if(m.length() < 6)
+	{
+		PasswordException e(1);
+		throw e;
+	}
+
+	for(i = 0; i < m.length(); i++)
+	{
+		if(((int)m[i] < 123 && (int)m[i] > 96) || ((int)m[i] < 91 && (int)m[i] > 64))
+			alpha = 1;
+
+		if(((int)m[i] < 58 && (int)m[i] > 47))
+			digit = 1;
+	}
+
+	if(!alpha)
+	{
+		PasswordException e(2);
+		throw e;
+	}
+	if(!digit)
+	{
+		PasswordException e1(3);
+		throw e1;
+	}
+
 	if(!motDePasse)
 		motDePasse = new string;
 
@@ -78,7 +110,10 @@ string Employe::getLogin() const
 string Employe::getMotDePasse() const
 {
 	if(!motDePasse)
-		return "Erreur";
+	{
+		PasswordException e(4);
+		throw e;
+	}
 	return (*motDePasse);
 }
 
@@ -123,7 +158,9 @@ string Employe::Tuple()
 
 Employe& Employe::operator=(Employe& e)
 {
-	Intervenant::operator=(e);
+	setNumero(e.getNumero());
+	setNom(e.getNom());
+	setPrenom(e.getPrenom());
 	setLogin(e.getLogin());
 	setFonction(e.getFonction());
 	setMotDePasse(e.getMotDePasse());
@@ -133,7 +170,7 @@ Employe& Employe::operator=(Employe& e)
 
 ostream& operator<<(ostream& s, Employe& e)
 {
-	s << e.getPrenom() << " " << e.getNom() << "(" << e.getNumero() << ", " << e.getLogin() << ", " << e.getMotDePasse() << ", " << e.getFonction() <<")";
+	s << e.getPrenom() << " " << e.getNom() << "(" << e.getNumero() << ", " << e.getLogin() << ", "  << e.getFonction() <<")";
 
 	return s;
 }

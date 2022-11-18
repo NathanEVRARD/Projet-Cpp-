@@ -15,7 +15,7 @@ public:
 	Intervenant(int, string, string);
 	Intervenant(Intervenant&);
 
-	~Intervenant();
+	virtual ~Intervenant();
 
 	void setNumero(int);
 
