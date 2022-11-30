@@ -2,9 +2,9 @@
 #include <fstream>
 using namespace std;
 
-#include "Modele.h"
-#include "Option.h"
-#include "Voiture.h"
+#include "Classes/Modele.h"
+#include "Classes/Option.h"
+#include "Classes/Voiture.h"
 
 int  Menu();
 void Essai1();
@@ -77,7 +77,7 @@ void Essai1()  // Attention : utilisez les flux bytes (read et write) !!!!
 void Essai2()  // Attention : utilisez les flux bytes (read et write) !!!!
 {
   cout << "----- 2. Test des methodes Save et Load de la classe Option ------" << endl;
-  
+
   Option option("ZH75","Jantes alliage leger 15 pouces",450.0f);
   option.Affiche();
   cout << endl;
@@ -86,7 +86,7 @@ void Essai2()  // Attention : utilisez les flux bytes (read et write) !!!!
   ofstream fichier1("JantesAlliage.opt",ios::out);
   option.Save(fichier1);
   fichier1.close();
-
+  
   cout << "----- Chargement de l'option situee dans le fichier JantesAlliage.opt -----" << endl;
   ifstream fichier2("JantesAlliage.opt",ios::in);
   Option o2;
@@ -94,6 +94,7 @@ void Essai2()  // Attention : utilisez les flux bytes (read et write) !!!!
   fichier2.close();
   o2.Affiche();
   cout << endl;
+  
 }
 
 /*********************************************************************************************/
@@ -119,4 +120,5 @@ void Essai3()  // Attention : utilisez les flux bytes (read et write) !!!!
   cout << "Prix du projet : " << voiture2.getPrix() << " euros" << endl << endl;
 
   cout << endl;
+  
 }
