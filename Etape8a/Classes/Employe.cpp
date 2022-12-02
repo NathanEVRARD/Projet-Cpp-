@@ -29,15 +29,12 @@ Employe::Employe(string n, string p, int num, string l, string f) : Intervenant(
 	resetMotDePasse();
 }
 
-Employe::Employe(Employe& e)
+Employe::Employe(const Employe& e) : Intervenant(e)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Employe)" << endl;
 	#endif
 
-	setNumero(e.getNumero());
-	setNom(e.getNom());
-	setPrenom(e.getPrenom());
 	setLogin(e.getLogin());
 	setFonction(e.getFonction());
 	setMotDePasse(e.getMotDePasse());
@@ -156,7 +153,7 @@ string Employe::Tuple()
 
 //---------------------  OPERATEURS  ------------------------
 
-Employe& Employe::operator=(Employe& e)
+Employe& Employe::operator=(const Employe& e)
 {
 	setNumero(e.getNumero());
 	setNom(e.getNom());

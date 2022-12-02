@@ -24,7 +24,7 @@ Client::Client(string n, string p, int num, string g) : Intervenant(num, n, p)
 	setGsm(g);
 }
 
-Client::Client(Client& c) : Client(c)
+Client::Client(Client& c) : Intervenant(c)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Client)" << endl;

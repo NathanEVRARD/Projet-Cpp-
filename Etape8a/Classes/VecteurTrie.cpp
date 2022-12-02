@@ -1,5 +1,4 @@
 #include "VecteurTrie.h"
-//#include "Client.h"
 
 //------------------------  CONSTRUCTEURS  ----------------------------
 
@@ -20,7 +19,7 @@ VecteurTrie<T>::VecteurTrie(int t) : Vecteur<T>(t)
 }
 
 template <class T>
-VecteurTrie<T>::VecteurTrie(const VecteurTrie& v) : Vecteur<T>(v)
+VecteurTrie<T>::VecteurTrie(const VecteurTrie<T>& v) : Vecteur<T>(v)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (VecteurTrie)" << endl;
@@ -56,5 +55,9 @@ void VecteurTrie<T>::insere(const T& val)
     this->_size++;
 }
 
+#include "Client.h"
+#include "Employe.h"
+
 template class VecteurTrie<Client>;
 template class VecteurTrie<int>; 
+template class VecteurTrie<Employe>;

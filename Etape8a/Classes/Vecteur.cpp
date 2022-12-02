@@ -24,7 +24,7 @@ template <class T> Vecteur<T>::Vecteur(int i)
 	v = new T[i];
 }
 
-template <class T> Vecteur<T>::Vecteur(const Vecteur& vect)
+template <class T> Vecteur<T>::Vecteur(const Vecteur<T>& vect)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Vecteur)" << endl;
@@ -130,7 +130,14 @@ template <class T> void Vecteur<T>::Affiche() const
 }
 
 //----------  INSTANCES  -----------------
+#include "Client.h"
+#include "Employe.h"
+#include "Modele.h"
+#include "Option.h"
 
 template class Vecteur<Client>;
 template class Vecteur<int>;
+template class Vecteur<Employe>;
+template class Vecteur<Modele>;
+template class Vecteur<Option>;
 //template class Vecteur<string>;

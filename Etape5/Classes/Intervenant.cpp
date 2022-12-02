@@ -20,7 +20,7 @@ Intervenant::Intervenant(int i, string n, string p) : Personne(n, p)
 	setNumero(i);
 }
 
-Intervenant::Intervenant(Intervenant& i) : Intervenant(i)
+Intervenant::Intervenant(Intervenant& i) : Personne(i)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Intervenant)" << endl;

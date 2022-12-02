@@ -1,6 +1,17 @@
 #ifndef GARAGE_H
 #define GARAGE_H
 
+#include <iostream>
+#include <string>
+#include "Iterateur.h"
+#include "VecteurTrie.h"
+#include "Client.h"
+#include "Modele.h"
+#include "Option.h"
+#include "Employe.h"
+
+using namespace std;
+
 class Garage
 {
 private:
@@ -22,7 +33,7 @@ public:
 	void afficheOptionsDisponibles() const;
 	Option getOption(int indice);
 
-	void ajouteClient(string nom, string prenom, string login, string gsm);
+	void ajouteClient(string nom, string prenom, string gsm);
 	void afficheClients() const;
 	void supprimeClientParIndice(int ind);
 	void supprimeClientParNumero(int num);

@@ -29,7 +29,7 @@ Employe::Employe(string n, string p, int num, string l, string f) : Intervenant(
 	resetMotDePasse();
 }
 
-Employe::Employe(Employe& e)
+Employe::Employe(Employe& e) : Intervenant(e)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Employe)" << endl;
@@ -72,7 +72,7 @@ void Employe::setMotDePasse(string m)
 
 	if(m.length() < 6)
 	{
-		PasswordException e(1);
+		PasswordException e("Mot de passe trop court !", 1);
 		throw e;
 	}
 
@@ -87,12 +87,12 @@ void Employe::setMotDePasse(string m)
 
 	if(!alpha)
 	{
-		PasswordException e(2);
+		PasswordException e("Pas de lettres !", 2);
 		throw e;
 	}
 	if(!digit)
 	{
-		PasswordException e1(3);
+		PasswordException e1("Pas de chiffres !", 3);
 		throw e1;
 	}
 
@@ -111,7 +111,7 @@ string Employe::getMotDePasse() const
 {
 	if(!motDePasse)
 	{
-		PasswordException e(4);
+		PasswordException e("Pas de mot de passe !", 4);
 		throw e;
 	}
 	return (*motDePasse);

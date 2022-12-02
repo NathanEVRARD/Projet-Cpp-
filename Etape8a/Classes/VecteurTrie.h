@@ -12,7 +12,7 @@ template <class T> class VecteurTrie : public Vecteur<T>
 public:
 	VecteurTrie();
 	VecteurTrie(int);
-	VecteurTrie(const VecteurTrie&);
+	VecteurTrie(const VecteurTrie<T>&);
 
 	~VecteurTrie();
 

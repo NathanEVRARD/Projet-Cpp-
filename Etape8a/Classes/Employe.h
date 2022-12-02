@@ -22,7 +22,7 @@ public:
 
 	Employe();
 	Employe(string, string, int, string, string);
-	Employe(Employe&);
+	Employe(const Employe&);
 
 	~Employe();
 
@@ -38,7 +38,7 @@ public:
 	string Tuple();
 	string ToString();
 
-	Employe& operator=(Employe&);
+	Employe& operator=(const Employe&);
 };
 
 #endif

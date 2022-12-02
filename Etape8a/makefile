@@ -1,7 +1,10 @@
 .SILENT:
 
-Test7:	Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o Classes/Exception.o Classes/OptionException.o Classes/PasswordException.o Classes/Vecteur.o Classes/Iterateur.o Classes/VecteurTrie.o Test8a.cpp
-	g++ Test8a.cpp Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o Classes/Exception.o Classes/OptionException.o Classes/PasswordException.o Classes/Vecteur.o Classes/Iterateur.o Classes/VecteurTrie.o -o Test8a
+Test7:	Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o Classes/Exception.o Classes/OptionException.o Classes/PasswordException.o Classes/Vecteur.o Classes/Iterateur.o Classes/VecteurTrie.o Classes/Garage.o Test8a.cpp
+	g++ Test8a.cpp Classes/Modele.o Classes/Voiture.o Classes/Option.o Classes/Personne.o Classes/Intervenant.o Classes/Client.o Classes/Employe.o Classes/Exception.o Classes/OptionException.o Classes/PasswordException.o Classes/Vecteur.o Classes/Iterateur.o Classes/VecteurTrie.o Classes/Garage.o -o Test8a
+
+Classes/Garage.o:	Classes/Garage.cpp Classes/Garage.h
+	g++ -c Classes/Garage.cpp -o Classes/Garage.o -D DEBUG
 
 Classes/VecteurTrie.o:	Classes/VecteurTrie.cpp Classes/VecteurTrie.h
 	g++ -c Classes/VecteurTrie.cpp -o Classes/VecteurTrie.o

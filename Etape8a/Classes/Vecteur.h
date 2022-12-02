@@ -2,8 +2,6 @@
 #define VECTEUR_H
 
 #include <iostream>
-#include "Client.h"
-#include "Vecteur.h"
 using namespace std;
 
 template <class T> class Iterateur;
@@ -17,7 +15,7 @@ protected:
 public:
 	Vecteur();
 	Vecteur(int);
-	Vecteur(const Vecteur&);
+	Vecteur(const Vecteur<T>&);
 
 	virtual ~Vecteur();
 

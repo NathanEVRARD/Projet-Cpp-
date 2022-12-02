@@ -17,13 +17,11 @@ OptionException::OptionException(string m) : Exception(m)
 	#endif
 }
 
-OptionException::OptionException(OptionException& o)
+OptionException::OptionException(OptionException& o) : Exception(o)
 {
 	#ifdef DEBUG
 	  cout << "Constructeur par defaut ! (OptionException)" << endl << endl;
 	#endif
-
-	setMessage(o.getMessage());
 }
 
 //-----------------  DESTRUCTEUR  ----------------------------

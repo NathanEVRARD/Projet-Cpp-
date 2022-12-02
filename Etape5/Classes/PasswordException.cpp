@@ -12,7 +12,7 @@ PasswordException::PasswordException() : Exception()
 	setCode(0);
 }
 
-PasswordException::PasswordException(int c) : Exception()
+PasswordException::PasswordException(string m, int c) : Exception(m)
 {
 	#ifdef DEBUG
 	  cout << "Constructeur d'initialisation ! (PasswordException)" << endl << endl;
@@ -21,7 +21,7 @@ PasswordException::PasswordException(int c) : Exception()
 	setCode(c);
 }
 
-PasswordException::PasswordException(PasswordException& p)
+PasswordException::PasswordException(PasswordException& p) : Exception(p)
 {
 	#ifdef DEBUG
 	  cout << "Constructeur de copie ! (PasswordException)" << endl << endl;

@@ -1,15 +1,16 @@
 #include "Iterateur.h"
 
-//------------------  CONSTRTCTETRS  --------------------------------
+//------------------  CONSTRUCTEURS  --------------------------------
 
-template <class T> Iterateur<T>::Iterateur(Vecteur<T>& vt) : vec(vt), pCur(vt.v)
+template <class T> Iterateur<T>::Iterateur(const Vecteur<T>& vt) : vec(vt)
 {
 	#ifdef DEBUG
 		cout << "Constructeur d'initialisation ! (Iterateur)" << endl;
 	#endif
+	pCur = vt.v;
 }
 
-//-----------------  DESTRTCTETR  ---------------------------------
+//-----------------  DESTRUCTEUR  ---------------------------------
 
 template <class T> Iterateur<T>::~Iterateur()
 {
@@ -18,7 +19,7 @@ template <class T> Iterateur<T>::~Iterateur()
 	#endif
 }
 
-//-----------------  OPERATETRS  -----------------------------------
+//-----------------  OPERATEURS  -----------------------------------
 
 template <class T> bool Iterateur<T>::operator++(int)
 {
@@ -35,7 +36,7 @@ template <class T> Iterateur<T>::operator T()  const
 	return *pCur;
 }
 
-//----------------  METHODES DE PARCOTRS  --------------------------
+//----------------  METHODES DE PARCOURS  --------------------------
 
 template <class T> void Iterateur<T>::reset()
 {
@@ -47,6 +48,13 @@ template <class T> bool Iterateur<T>::end()
 	if(pCur - vec.v >= vec.size()) return true;
 	else return false;
 }
+#include "Client.h"
+#include "Modele.h"
+#include "Option.h"
+#include "Employe.h"
 
 template class Iterateur<int>;
 template class Iterateur<Client>;
+template class Iterateur<Modele>;
+template class Iterateur<Option>;
+template class Iterateur<Employe>;

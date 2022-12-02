@@ -222,9 +222,10 @@ ostream& operator<<(ostream& s, Voiture& v)
 	s << "Modele : ";
 	v.getModele().Affiche();
 
-	for(i = 0; i < NBR_OPTIONS && v.options[i] != NULL; i++)
+	for(i = 0; i < NBR_OPTIONS; i++)
 	{
-		v.options[i]->Affiche();
+		if(v.options[i] != NULL)
+			v.options[i]->Affiche();
 	}
 
 	return s;
@@ -257,7 +258,10 @@ void Voiture::AjouteOption(const Option& o)
 			OptionException e("Option deja presente !");
 			throw e;
 		}
+	}
 
+	for(i = 0; i < NBR_OPTIONS; i++)
+	{
 		if(options[i] == NULL)
 		{
 			op = new Option(o);
@@ -275,26 +279,18 @@ void Voiture::RetireOption(string c)
 	for(i = 0, presente = 0; i < NBR_OPTIONS; i++)
 	{
 		if(options[i] != NULL && options[i]->getCode() == c)
+		{
 			presente = 1;
+			delete options[i];
+			options[i] = NULL;
+			i += NBR_OPTIONS;
+		}
 	}
 
 	if(!presente)
 	{
 		OptionException e("Option introuvable");
 		throw e;
-	}
-
-	for(i = 0; i < NBR_OPTIONS; i++)
-	{
-		if(options[i] != NULL)
-		{
-			if(options[i]->getCode() == c)
-			{
-				delete options[i];
-				options[i] = NULL;
-				i += NBR_OPTIONS;
-			}
-		}
 	}
 }
 

@@ -1,5 +1,7 @@
 #include "Intervenant.h"
 
+int Intervenant::numCourant = 0;
+
 //--------------------  CONSTRUCTEURS  ------------------------------
 
 Intervenant::Intervenant() : Personne()
@@ -8,7 +10,7 @@ Intervenant::Intervenant() : Personne()
 		cout << "Constructeur par defaut ! (Intervenant)" << endl;
 	#endif
 
-	setNumero(0);
+	setNumero(numCourant++);
 }
 
 Intervenant::Intervenant(int i, string n, string p) : Personne(n, p)
@@ -17,7 +19,7 @@ Intervenant::Intervenant(int i, string n, string p) : Personne(n, p)
 		cout << "Constructeur d'initialisation ! (Intervenant)" << endl;
 	#endif
 
-	setNumero(i);
+	setNumero(numCourant++);
 }
 
 Intervenant::Intervenant(const Intervenant& i) : Personne(i)

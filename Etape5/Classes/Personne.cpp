@@ -21,7 +21,7 @@ Personne::Personne(string nom, string prenom)
 	setPrenom(prenom);
 }
 
-Personne::Personne(Personne& p) : Personne(p)
+Personne::Personne(Personne& p)
 {
 	#ifdef DEBUG
 		cout << "Constructeur de copie ! (Personne)" << endl;

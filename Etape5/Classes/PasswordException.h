@@ -12,7 +12,7 @@ private:
 	int code;
 public:
 	PasswordException();
-	PasswordException(int);
+	PasswordException(string, int);
 	PasswordException(PasswordException&);
 
 	~PasswordException();

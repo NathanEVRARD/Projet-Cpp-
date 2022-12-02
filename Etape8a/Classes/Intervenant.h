@@ -2,15 +2,16 @@
 #define INTERVENANT_H
 
 #include <iostream>
-#include "Personne.h"
-
 using namespace std;
+#include "Personne.h"
 
 class Intervenant : public Personne
 {
 protected:
 	int numero;
 public:
+	static int numCourant;
+
 	Intervenant();
 	Intervenant(int, string, string);
 	Intervenant(const Intervenant&);

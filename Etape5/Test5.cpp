@@ -225,7 +225,7 @@ void Essai3()
         erreur = "UNKNOW_ERROR";
         break;
     }
-    cout << erreur << endl;
+    cout << erreur << " : "<< p.getMessage() << endl;
   }
   cout << endl;
 }
@@ -245,8 +245,9 @@ void Essai4()
     Employe e1("Dupont","Michel",2,"dupomich",Employe::ADMINISTRATIF);
     cout << e1 << endl;
     cout << "Encodez son mot de passe : ";
+    cin.ignore();
     string mdp;
-    cin >> mdp;
+    getline(cin, mdp);
     e1.setMotDePasse(mdp);
     cout << "Affichage du mot de passe :" << endl;
     cout << "Mot de passe = " << e1.getMotDePasse() << endl;
@@ -278,7 +279,7 @@ void Essai4()
         erreur = "UNKNOW_ERROR";
         break;
     }
-    cout << erreur << endl;
+    cout << erreur << " : " << p.getMessage() <<endl;
   }
   catch(...)
   {
