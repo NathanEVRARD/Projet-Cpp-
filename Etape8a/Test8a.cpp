@@ -29,44 +29,16 @@ int main()
   g.ajouteClient("Vilvens","Claude","0477/45.29.98");
   g.ajouteClient("Charlet","Christophe","0475/71.31.89");
   // Ajout d'employes
-  try
-  {
-    g.ajouteEmploye("Issier","Paul","issipaul",Employe::VENDEUR); // fix operator = avec getMotDePasse()
-    g.ajouteEmploye("Coptere","Elie","coptelie",Employe::ADMINISTRATIF);
-    g.ajouteEmploye("Duviver","Isabelle","duviisab",Employe::ADMINISTRATIF);
-    g.ajouteEmploye("Cadabras","Habras","cadahabr",Employe::VENDEUR);
-  }
-  catch(PasswordException& p)
-  {
-    string erreur;
-
-    cout << "Exception (PasswordException) : ";
-    switch(p.getCode())
-    {
-      case 1:
-        erreur = "INVALID_LENGTH";
-        break;
-      case 2:
-        erreur = "ALPHA_MISSING";
-        break;
-      case 3:
-        erreur = "DIGIT_MISSING";
-        break;
-      case 4:
-        erreur = "NO_PASSWORD";
-        break;
-      default:
-        erreur = "UNKNOW_ERROR";
-        break;
-    }
-    cout << erreur << " : "<< p.getMessage() << endl;
-  }
-  cout << "coucou" << endl;
+  g.ajouteEmploye("Issier","Paul","issipaul",Employe::VENDEUR); // fix operator = avec getMotDePasse()
+  g.ajouteEmploye("Coptere","Elie","coptelie",Employe::ADMINISTRATIF);
+  g.ajouteEmploye("Duviver","Isabelle","duviisab",Employe::ADMINISTRATIF);
+  g.ajouteEmploye("Cadabras","Habras","cadahabr",Employe::VENDEUR);
   
   // Affichage
   cout << "////////// Avant ///////////////////////////////////////////////////////////////////////" << endl;
+  
   g.afficheClients();
-  g.afficheEmployes();
+  g.afficheEmployes();  
 
   // Suppression par indice
   g.supprimeClientParIndice(1);

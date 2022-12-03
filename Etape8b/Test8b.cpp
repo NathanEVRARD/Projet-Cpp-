@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "Garage.h"
+#include "Classes/Garage.h"
 
 int main()
 {
@@ -28,7 +28,6 @@ int main()
   Garage::getInstance().ajouteClient("Quettier","Patrick","0476/78.45.12");
   Garage::getInstance().ajouteClient("Vilvens","Claude","0477/45.29.98");
   Garage::getInstance().ajouteClient("Charlet","Christophe","0475/71.31.89");
-
   // Ajout d'employes
   Garage::getInstance().ajouteEmploye("Issier","Paul","issipaul",Employe::VENDEUR);
   Garage::getInstance().ajouteEmploye("Coptere","Elie","coptelie",Employe::ADMINISTRATIF);

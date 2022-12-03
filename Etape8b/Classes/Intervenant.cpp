@@ -10,7 +10,7 @@ Intervenant::Intervenant() : Personne()
 		cout << "Constructeur par defaut ! (Intervenant)" << endl;
 	#endif
 
-	setNumero(numCourant);
+	setNumero(0);
 }
 
 Intervenant::Intervenant(int i, string n, string p) : Personne(n, p)
