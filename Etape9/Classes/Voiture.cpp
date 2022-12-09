@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstring>
 
-#define NBR_OPTIONS 5
 
 using namespace std;
 
@@ -257,6 +256,10 @@ void Voiture::AjouteOption(const Option& o)
 			OptionException e("Option deja presente !");
 			throw e;
 		}
+	}
+
+	for(i = 0; i < NBR_OPTIONS; i++)
+	{
 
 		if(options[i] == NULL)
 		{
@@ -316,84 +319,71 @@ void Voiture::Affiche()
 
 void Voiture::Save()const
 {
+	int i, cpt;
+	string nomFichier = nomProjet;
+	string extension = ".car";
+	nomFichier = nomFichier + extension;
 
-    #ifdef DEBUG2
-        cout<<"Save ! (Voiture)"<<endl;
-    #endif
+	char *nomProjetTemp = new char[80];
+	strcpy(nomProjetTemp, getNom().c_str());
+	int nomProjetLength = strlen(nomProjetTemp);
 
-    int i , cpt;
-    int tailleNom = nom.size();
 
-    string nomProjet = nom + ".car";
+	ofstream fichier(nomFichier, ios::out);
 
-    for(i = 0 , cpt = 0; i<5; i++)
-    {
-        if(option[i] != NULL)
-        {
-            cpt++;
-        }
-    }
+	for(i = 0, cpt = 0; i < NBR_OPTIONS; i++)
+	{
+		if(options[i] != NULL)
+			cpt++;
+	}
 
-    ofstream fichier1(nomProjet,ios::out);
+	if(fichier.is_open())
+	{
+		fichier.write((char*)&nomProjetLength, sizeof(int));
+		fichier.write(nomProjetTemp, nomProjetLength * sizeof(char));
+		modele.Save(fichier);
+		fichier.write((char*)&cpt, sizeof(int));
+		for(i = 0; i < NBR_OPTIONS; i++)
+		{
+			if(options[i] != NULL)
+			{
+				options[i]->Save(fichier);
+			}
+		}
+		fichier.close();
+	}
 
-    if(fichier1.is_open())
-    {    
-        fichier1.write((char*)&tailleNom,sizeof(int));
-        fichier1.write((char*)nom.data(),sizeof(char)*tailleNom);
-
-        modele.Save(fichier1);
-
-        fichier1.write((char*)&cpt, sizeof(int));
-        
-
-        for(int i=0;i<5;i++)
-        {    
-            if(option[i] != NULL)option[i]->Save(fichier1);
-        }
-
-        fichier1.close();
-    }
+	delete nomProjetTemp;
 }
 
-void Voiture::Load(string NomFichier)
+void Voiture::Load(string nomFichier)
 {
+	int i, cpt, nomProjetLength;
+	Option optionTemp;
+	char *nomProjetTemp = NULL;
 
-    #ifdef DEBUG2
-        cout<<"Load ! (Voiture)"<<endl;
-    #endif
+	for(i = 0; i < NBR_OPTIONS; i++)
+	{
+		if(options[i] != NULL)
+			RetireOption(options[i]->getCode());
+	}
 
-    int tailleNom, i ,cpt;
-    Option OptionTmp;
+	ifstream fichier(nomFichier, ios::in);
+	if(fichier.is_open())
+	{
+		fichier.read((char*)&nomProjetLength, sizeof(int));
+		nomProjetTemp = new char[nomProjetLength];
+		fichier.read(nomProjetTemp, nomProjetLength * sizeof(char));
+		modele.Load(fichier);
+		fichier.read((char*)&cpt, sizeof(int));
+		for(i = 0; i < cpt; i++)
+		{
+			optionTemp.Load(fichier);
+			AjouteOption(optionTemp);
+		}
+		fichier.close();
 
-    for(i=0; i<5;i++)
-    {
-        if(option[i] != NULL)
-        {    
-            RetireOption(option[i]->getCode());
-        }
-    }
-
-    ifstream fichier2(NomFichier,ios::in);
-
-    if(fichier2.is_open())
-    {    
-        fichier2.read((char*)&tailleNom,sizeof(int));
-
-        nom.resize(tailleNom);
-        fichier2.read((char*)nom.data(),sizeof(char)*tailleNom);
-
-        modele.Load(fichier2);
-
-        fichier2.read((char*)&cpt,sizeof(int));
-
-        for(i = 0; i<cpt; i++)
-        {
-            OptionTmp.Load(fichier2);
-            AjouteOption(OptionTmp);
-        }
-
-        fichier2.close();
-    }
-
-    
+		setNom(nomProjetTemp);
+		delete nomProjetTemp;
+	}
 }

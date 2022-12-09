@@ -153,49 +153,50 @@ void Option::Affiche(void) const
 	cout << getCode() << "(" << getIntitule() << ", "  << getPrix() << ")" << endl;
 }
 
-void Option::Save(ofstream& fichier) const
+void Option::Save(ofstream &fichier)const
 {
-	char *codeTemp = new char[5];
-	strcpy(codeTemp, getCode().c_str());
-	int codeLength = strlen(codeTemp) + 1;
 
-	char *intituleTemp = new char[80];
-	strcpy(intituleTemp, getIntitule().c_str());
-	int intituleLength = strlen(intituleTemp) + 1;
+    #ifdef DEBUG2
+        cout << "Save ! (Option) "<<endl;
+    #endif
 
-	if(fichier.is_open())
-	{
-		fichier.write((char*)&codeLength, sizeof(int));
-		fichier.write(codeTemp, codeLength * sizeof(char));
-		fichier.write((char*)&intituleLength,sizeof(int));
-		fichier.write(intituleTemp, intituleLength * sizeof(char));
-		fichier.write((char*)&prix, sizeof(float));
-	}
-	delete codeTemp;
-	delete intituleTemp;
+    int tailleCode = getCode().size();
+    int tailleIntitule = getIntitule().size();
+
+    if(fichier.is_open())
+    {
+
+        fichier.write((char*)&tailleCode,sizeof(int));
+        fichier.write((char*)getCode().data(),sizeof(char) * tailleCode);
+
+        fichier.write((char*)&tailleIntitule,sizeof(int));
+        fichier.write((char*)getIntitule().data(),sizeof(char) * tailleIntitule);
+
+        fichier.write((char*)&prix,sizeof(float));
+
+    }
 }
 
-void Option::Load(ifstream& fichier)
-{
-	int codeLength, intituleLength;
-	char * codeTemp = NULL;
-	char * intituleTemp = NULL;
+void Option::Load(ifstream &fichier)
+{    
+    #ifdef DEBUG2
+        cout<<"Load ! (Option)"<<endl;
+    #endif
 
-	if(fichier.is_open())
-	{
-		fichier.read((char*)&codeLength, sizeof(int));
-		codeTemp = new char[codeLength];
-		fichier.read(codeTemp, codeLength * sizeof(char));
-		fichier.read((char*)&intituleLength, sizeof(int));
-		intituleTemp = new char[intituleLength];
-		fichier.read(intituleTemp, intituleLength * sizeof(char));
-		fichier.read((char*)&prix, sizeof(float));
+    int tailleCode;
+    int tailleIntitule;
 
-		setCode(codeTemp);
-		setIntitule(intituleTemp);
+    if(fichier.is_open())
+    {
+        fichier.read((char*)&tailleCode,sizeof(int));
+        intitule.resize(tailleCode);
+        fichier.read((char*)code.data(),sizeof(char)*tailleCode);
 
-		delete codeTemp;
-		delete intituleTemp;
-	}
+        fichier.read((char*)&tailleIntitule,sizeof(int));
+        intitule.resize(tailleIntitule);
+        fichier.read((char*)intitule.data(),sizeof(char)*tailleIntitule);
 
+        fichier.read((char*)&prix,sizeof(float));
+
+    }
 }

@@ -1,6 +1,9 @@
 #include "Employe.h"
 #include "Intervenant.h"
 #include "PasswordException.h"
+#include <iostream>
+#include <string>
+
 
 string Employe::VENDEUR = "VENDEUR";
 string Employe::ADMINISTRATIF = "ADMINISTRATIF";
@@ -16,6 +19,7 @@ Employe::Employe() : Intervenant()
 	setLogin("Login");
 	setFonction("Fonction");
 	resetMotDePasse();
+	setMotDePasse("student1");
 }
 
 Employe::Employe(string n, string p, int num, string l, string f) : Intervenant(num, n, p)
@@ -27,6 +31,7 @@ Employe::Employe(string n, string p, int num, string l, string f) : Intervenant(
 	setLogin(l);
 	setFonction(f);
 	resetMotDePasse();
+	setMotDePasse("student1");
 }
 
 Employe::Employe(const Employe& e) : Intervenant(e)
@@ -37,8 +42,7 @@ Employe::Employe(const Employe& e) : Intervenant(e)
 
 	setLogin(e.getLogin());
 	setFonction(e.getFonction());
-	if(e.motDePasse != NULL)
-		setMotDePasse(e.getMotDePasse());
+	setMotDePasse(e.getMotDePasse());
 }
 
 //---------------------  DESTRUCTEUR  ----------------------------
@@ -70,7 +74,7 @@ void Employe::setMotDePasse(string m)
 
 	if(m.length() < 6)
 	{
-		PasswordException e(1);
+		PasswordException e("", 1);
 		throw e;
 	}
 
@@ -85,12 +89,12 @@ void Employe::setMotDePasse(string m)
 
 	if(!alpha)
 	{
-		PasswordException e(2);
+		PasswordException e("", 2);
 		throw e;
 	}
 	if(!digit)
 	{
-		PasswordException e1(3);
+		PasswordException e1("", 3);
 		throw e1;
 	}
 
@@ -109,7 +113,7 @@ string Employe::getMotDePasse() const
 {
 	if(!motDePasse)
 	{
-		PasswordException e(4);
+		PasswordException e("", 4);
 		throw e;
 	}
 	return (*motDePasse);
@@ -156,14 +160,12 @@ string Employe::Tuple()
 
 Employe& Employe::operator=(const Employe& e)
 {
-	resetMotDePasse();
 	setNumero(e.getNumero());
 	setNom(e.getNom());
 	setPrenom(e.getPrenom());
 	setLogin(e.getLogin());
 	setFonction(e.getFonction());
-	if(e.motDePasse != NULL)
-		setMotDePasse(e.getMotDePasse());
+	setMotDePasse(e.getMotDePasse());
 
 	return (*this);
 }

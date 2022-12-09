@@ -14,7 +14,7 @@ Modele::Modele(void) // Par défaut
   setPrixDeBase(0.0f);
 }
 
-Modele::Modele(char const *temp, int puissance, enum Moteur moteur, float prix) // D'initialisation
+Modele::Modele(char const *temp, int puissance, enum Moteur moteur, float prix, string image) // D'initialisation
 {
   #ifdef DEBUG
   cout << "Constructeur initialisation ! (Modele)" << endl << endl;
@@ -25,6 +25,7 @@ Modele::Modele(char const *temp, int puissance, enum Moteur moteur, float prix) 
   setPuissance(puissance);
   setMoteur(moteur);
   setPrixDeBase(prix);
+  setImage(image);
 }
 
 Modele::Modele(const Modele& m) // De copie
@@ -38,6 +39,7 @@ Modele::Modele(const Modele& m) // De copie
   setPuissance(m.getPuissance());
   setMoteur(m.getMoteur());
   setPrixDeBase(m.getPrixDeBase());
+  setImage(m.getImage());
 }
 
 //---------------  DESTRUCTEUR  -----------------------------------------
@@ -79,6 +81,11 @@ void Modele::setPrixDeBase(float p)
   if (p < 0) return;
 
   prix = p;
+}
+
+void Modele::setImage(string i)
+{
+  image = i;
 }
 
 
@@ -130,6 +137,10 @@ string Modele::getStrMoteur() const
   return s;
 }
 
+string Modele::getImage() const
+{
+  return image;
+}
 //----------------  OPERATEURS  ------------------------------------
 
 istream& operator>>(istream& s, Modele& m)
@@ -177,10 +188,6 @@ void Modele::Save(ofstream& fichier) const
 {
   int nomLength = strlen(getNom());
 
-  #ifdef DEBUG
-    cout << "Save ! (Modele)" << endl;
-  #endif
-
   if(fichier.is_open())
   {
     fichier.write((char*)&nomLength, sizeof(int));
@@ -194,10 +201,6 @@ void Modele::Save(ofstream& fichier) const
 void Modele::Load(ifstream& fichier)
 {
   int nomLength;
-
-  #ifdef DEBUG
-    cout << "Load ! (Modele)" << endl;
-  #endif
 
   if(fichier.is_open())
   {

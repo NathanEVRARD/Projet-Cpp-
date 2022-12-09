@@ -204,30 +204,9 @@ void Essai3()
   }
   catch(PasswordException& p)
   {
-    string erreur;
+    cout << "PasswordException : " << p.getMessage() << endl;
 
-    cout << "Exception (PasswordException) : ";
-    switch(p.getCode())
-    {
-      case 1:
-        erreur = "INVALID_LENGTH";
-        break;
-      case 2:
-        erreur = "ALPHA_MISSING";
-        break;
-      case 3:
-        erreur = "DIGIT_MISSING";
-        break;
-      case 4:
-        erreur = "NO_PASSWORD";
-        break;
-      default:
-        erreur = "UNKNOW_ERROR";
-        break;
-    }
-    cout << erreur << " : "<< p.getMessage() << endl;
   }
-  cout << endl;
 }
 
 /**********************************************************************************************/
@@ -258,28 +237,7 @@ void Essai4()
   }
   catch(PasswordException& p)
   {
-    string erreur;
-
-    cout << "Exception (PasswordException) : ";
-    switch(p.getCode())
-    {
-      case 1:
-        erreur = "INVALID_LENGTH";
-        break;
-      case 2:
-        erreur = "ALPHA_MISSING";
-        break;
-      case 3:
-        erreur = "DIGIT_MISSING";
-        break;
-      case 4:
-        erreur = "NO_PASSWORD";
-        break;
-      default:
-        erreur = "UNKNOW_ERROR";
-        break;
-    }
-    cout << erreur << " : " << p.getMessage() <<endl;
+    cout << "Exception (PasswordException) : " << p.getMessage() << endl;
   }
   catch(...)
   {

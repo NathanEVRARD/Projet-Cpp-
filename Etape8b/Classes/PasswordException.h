@@ -12,7 +12,7 @@ private:
 	int code;
 public:
 	PasswordException();
-	PasswordException(int);
+	PasswordException(string, int);
 	PasswordException(PasswordException&);
 
 	~PasswordException();
@@ -20,6 +20,11 @@ public:
 	void setCode(int);
 
 	int getCode() const;
+
+	static const int INVALID_LENGTH;
+	static const int DIGIT_MISSING;
+	static const int ALPHA_MISSING;
+	static const int NO_PASSWORD;
 };
 
 #endif

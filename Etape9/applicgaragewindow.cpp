@@ -1,9 +1,13 @@
 #include "applicgaragewindow.h"
 #include "ui_applicgaragewindow.h"
+#include "Classes/Garage.h"
+#include "Classes/OptionException.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <sstream>
 using namespace std;
+
+int indOption = 0;
 
 #define REPERTOIRE_IMAGES "images/"
 
@@ -80,8 +84,23 @@ ApplicGarageWindow::ApplicGarageWindow(QWidget *parent) : QMainWindow(parent),ui
     setRole();  // acces a tout pour l'instant
 
     //******* EXEMPLES (A SUPPRIMER) *******************************************
-
+    /*setTableOption(1,"XY08","Toit ouvrant",850.0);
+    ajouteModeleDisponible("Ferrari Daytona SP3",2100000.0);
+    ajouteModeleDisponible("Peugeot 208",18500.0);
+    ajouteOptionDisponible("Peinture metallisee",450.0);
+    ajouteOptionDisponible("Systeme GPS",1100.0);
+    setModele("Peugeot 308",120,1,22300.0,"308.jpg");
+    ajouteTupleTableEmployes("2;Wagner;Jean-Marc;Vendeur");
+    ajouteTupleTableClients("8;Leonard;Anne;0475/47.25.36");
+    ajouteTupleTableContrats("3;Wagner Jean-Marc;Quettier Patrick;508_ProjetQuettier");*/
     //**************************************************************************
+    Garage::getInstance().ajouteModele(Modele("Opel Corsa", 90, (enum Moteur)0, 12000, "208.jpg"));
+    ajouteModeleDisponible("Opel Corsa", 12000);
+    setModele("Opel Corsa", 90, (enum Moteur)0, 12000, "208.jpg");
+    Garage::getInstance().ajouteOption(Option("0MM0", "Vitres taintées", 600));
+    ajouteOptionDisponible("Vitres taintées", 600);
+    Garage::getInstance().ajouteOption(Option("1234", "Tah les jantes stylées", 800));
+    ajouteOptionDisponible("Tah les jantes stylées", 800);
 }
 
 ApplicGarageWindow::~ApplicGarageWindow()
@@ -619,6 +638,8 @@ void ApplicGarageWindow::on_actionNouveau_modele_triggered()
   string image = dialogueDemandeTexte("Nouveau modèle","Nom du fichier de l'image :");
 
   // TO DO (étape 9)
+  Garage::getInstance().ajouteModele(Modele(nomModele.c_str(), puissance, (enum Moteur)moteur, prixDeBase, image));
+  ajouteModeleDisponible(nomModele.c_str(), prixDeBase);
 
 }
 
@@ -631,6 +652,15 @@ void ApplicGarageWindow::on_actionNouvelle_option_triggered()
   float prix = dialogueDemandeFloat("Nouvelle option","Prix :");
 
   // TO DO (étape 9)
+  try
+  {
+      Garage::getInstance().ajouteOption(Option(code, intitule, prix));
+      ajouteOptionDisponible(intitule.c_str(), prix);
+  }
+  catch(OptionException &o)
+  {
+    dialogueErreur("OptionException !", o.getMessage().c_str());
+  }
 
 }
 
@@ -703,14 +733,46 @@ void ApplicGarageWindow::on_actionReset_Mot_de_passe_triggered()
 void ApplicGarageWindow::on_pushButtonChoisirModele_clicked()
 {
   // TO DO (étape 9)
-
+    if(getIndiceModeleSelectionneCombobox() == -1)
+        dialogueErreur("Modele !", "Pas de modele selectionne !");
+    else
+    {
+        Modele m(Garage::getInstance().getModele(getIndiceModeleSelectionneCombobox()));
+        setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ApplicGarageWindow::on_pushButtonAjouterOption_clicked()
 {
   // TO DO (étape 9)
-
+    try
+    {
+        if(getIndiceOptionSelectionneeCombobox() == -1)
+        {
+            dialogueErreur("Option !", "Aucune option sélectionée");
+        }
+        else if(getIndiceModeleSelectionneCombobox() == -1)
+        {
+            dialogueErreur("Modèle !", "Aucun modèle sélectionné");
+        }
+        else
+        {
+            Option op = Garage::getInstance().getOption(getIndiceOptionSelectionneeCombobox());
+            Garage::getInstance().getProjetEnCours().AjouteOption(op);
+            for(int i = 0; i < NBR_OPTIONS; i++)
+            {
+                if(Garage::getInstance().getProjetEnCours()[i] != NULL)
+                    setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
+                else
+                    setTableOption(i, "", "", -1);
+            }    
+        }
+    }
+    catch(OptionException &o)
+    {
+        dialogueErreur("Option !", o.getMessage().c_str());
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -718,6 +780,25 @@ void ApplicGarageWindow::on_pushButtonSupprimerOption_clicked()
 {
   // TO DO (étape 9)
 
+    if(getIndiceOptionSelectionneeTable() == -1)
+        dialogueErreur("Option !", "Aucune option sélectionnée");
+    else
+    {
+        try
+        {
+            if(Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()] != NULL)
+            {
+                Garage::getInstance().getProjetEnCours().RetireOption(Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getCode());
+                setTableOption(getIndiceOptionSelectionneeTable(), "", "", -1);
+            }
+            else
+                dialogueErreur("Option", "Veuillez supprimer une option valide");
+        }
+        catch(OptionException &o)
+        {
+            dialogueErreur("Option !", o.getMessage().c_str());
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -725,26 +806,74 @@ void ApplicGarageWindow::on_pushButtonReduction_clicked()
 {
   // TO DO (étape 9)
 
+    if(getIndiceOptionSelectionneeTable() == -1)
+        dialogueErreur("Option !", "Aucune option sélectionnée");
+    else
+    {
+        try
+        {
+            if(Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()] != NULL)
+            {
+                (*Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()])--;
+                setTableOption(getIndiceOptionSelectionneeTable(), Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getCode(), Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getIntitule(), Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getPrix());
+            }
+
+        }
+        catch(OptionException &o)
+        {
+            dialogueErreur("Option !", o.getMessage().c_str());
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ApplicGarageWindow::on_pushButtonEnregistrerProjet_clicked()
 {
   // TO DO (étape 9)
-
+    if(getNomProjetEnCours() != "")
+    {
+        string NomProjet = getNomProjetEnCours();
+        Garage::getInstance().getProjetEnCours().setNom(NomProjet);
+        Garage::getInstance().getProjetEnCours().Save();
+    }
+    else
+        dialogueErreur("Nom Projet !", "Veuillez donner un nom au projet à enregistrer");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ApplicGarageWindow::on_pushButtonOuvrirProjet_clicked()
 {
   // TO DO (étape 9)
-
+    if(getNomProjetEnCours() != "")
+    {
+        string NomProjet = getNomProjetEnCours();
+        Garage::getInstance().resetProjetEnCours();
+        Garage::getInstance().getProjetEnCours().Load(NomProjet + ".car");
+        for(int i = 0; i < NBR_OPTIONS; i++)
+        {
+            if(Garage::getInstance().getProjetEnCours()[i] != NULL)
+                setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
+            else
+                setTableOption(i, "", "", -1);
+        }  
+    }
+    else
+        dialogueErreur("Nom Projet !", "Veuillez donner un nom au projet à ouvrir");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ApplicGarageWindow::on_pushButtonNouveauProjet_clicked()
 {
   // TO DO (étape 9)
+    Garage::getInstance().resetProjetEnCours();
+    for(int i = 0; i < NBR_OPTIONS; i++)
+    {
+        if(Garage::getInstance().getProjetEnCours()[i] != NULL)
+            setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
+        else
+            setTableOption(i, "", "", -1);
+    }
+    setModele("", 0, 0, 0, "");
 
 }
 

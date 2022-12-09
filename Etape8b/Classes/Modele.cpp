@@ -177,6 +177,10 @@ void Modele::Save(ofstream& fichier) const
 {
   int nomLength = strlen(getNom());
 
+  #ifdef DEBUG
+    cout << "Save ! (Modele)" << endl;
+  #endif
+
   if(fichier.is_open())
   {
     fichier.write((char*)&nomLength, sizeof(int));
@@ -190,6 +194,10 @@ void Modele::Save(ofstream& fichier) const
 void Modele::Load(ifstream& fichier)
 {
   int nomLength;
+
+  #ifdef DEBUG
+    cout << "Load ! (Modele)" << endl;
+  #endif
 
   if(fichier.is_open())
   {
