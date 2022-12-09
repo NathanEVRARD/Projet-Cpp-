@@ -101,6 +101,7 @@ ApplicGarageWindow::ApplicGarageWindow(QWidget *parent) : QMainWindow(parent),ui
     ajouteOptionDisponible("Vitres taintées", 600);
     Garage::getInstance().ajouteOption(Option("1234", "Tah les jantes stylées", 800));
     ajouteOptionDisponible("Tah les jantes stylées", 800);
+    setPrix(Garage::getInstance().getProjetEnCours().getPrix());
 }
 
 ApplicGarageWindow::~ApplicGarageWindow()
@@ -739,6 +740,8 @@ void ApplicGarageWindow::on_pushButtonChoisirModele_clicked()
     {
         Modele m(Garage::getInstance().getModele(getIndiceModeleSelectionneCombobox()));
         setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
+        Garage::getInstance().getProjetEnCours().setModele(m);
+        setPrix(Garage::getInstance().getProjetEnCours().getPrix());
     }
 }
 
@@ -767,6 +770,7 @@ void ApplicGarageWindow::on_pushButtonAjouterOption_clicked()
                 else
                     setTableOption(i, "", "", -1);
             }    
+            setPrix(Garage::getInstance().getProjetEnCours().getPrix());
         }
     }
     catch(OptionException &o)
@@ -790,6 +794,7 @@ void ApplicGarageWindow::on_pushButtonSupprimerOption_clicked()
             {
                 Garage::getInstance().getProjetEnCours().RetireOption(Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getCode());
                 setTableOption(getIndiceOptionSelectionneeTable(), "", "", -1);
+                setPrix(Garage::getInstance().getProjetEnCours().getPrix());
             }
             else
                 dialogueErreur("Option", "Veuillez supprimer une option valide");
@@ -816,7 +821,10 @@ void ApplicGarageWindow::on_pushButtonReduction_clicked()
             {
                 (*Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()])--;
                 setTableOption(getIndiceOptionSelectionneeTable(), Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getCode(), Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getIntitule(), Garage::getInstance().getProjetEnCours()[getIndiceOptionSelectionneeTable()]->getPrix());
+                setPrix(Garage::getInstance().getProjetEnCours().getPrix());
             }
+            else
+                dialogueErreur("Option !", "Veuillez choisir une option valide à réduire");
 
         }
         catch(OptionException &o)
