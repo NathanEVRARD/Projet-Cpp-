@@ -187,28 +187,34 @@ void Modele::Affiche() const
 void Modele::Save(ofstream& fichier) const
 {
   int nomLength = strlen(getNom());
+  int imageLength = getImage().size();
 
   if(fichier.is_open())
   {
     fichier.write((char*)&nomLength, sizeof(int));
-    fichier.write((char*)&nom, strlen(getNom()));
+    fichier.write(nom, strlen(getNom()));
     fichier.write((char*)&puissance, sizeof(int));
     fichier.write((char*)&moteur, sizeof(enum Moteur));
     fichier.write((char*)&prix, sizeof(float));
+    fichier.write((char*)&imageLength, sizeof(int));
+    fichier.write((char*)getImage().data(), sizeof(char)*imageLength);
   }
 }
 
 void Modele::Load(ifstream& fichier)
 {
-  int nomLength;
+  int nomLength, imageLength;
 
   if(fichier.is_open())
   {
     fichier.read((char*)&nomLength, sizeof(int));
-    fichier.read((char*)&nom, nomLength);
+    fichier.read(nom, nomLength);
     fichier.read((char*)&puissance, sizeof(int));
     fichier.read((char*)&moteur, sizeof(enum Moteur));
     fichier.read((char*)&prix, sizeof(float));  
+    fichier.read((char*)&imageLength, sizeof(int));
+    image.resize(imageLength);
+    fichier.read((char*)image.data(), sizeof(char)*imageLength);
   }
 
   

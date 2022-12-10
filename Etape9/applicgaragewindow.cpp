@@ -96,12 +96,14 @@ ApplicGarageWindow::ApplicGarageWindow(QWidget *parent) : QMainWindow(parent),ui
     //**************************************************************************
     Garage::getInstance().ajouteModele(Modele("Opel Corsa", 90, (enum Moteur)0, 12000, "208.jpg"));
     ajouteModeleDisponible("Opel Corsa", 12000);
-    setModele("Opel Corsa", 90, (enum Moteur)0, 12000, "208.jpg");
-    Garage::getInstance().ajouteOption(Option("0MM0", "Vitres taintées", 600));
-    ajouteOptionDisponible("Vitres taintées", 600);
+    Garage::getInstance().ajouteOption(Option("0MM0", "Vitres teintées", 600));
+    ajouteOptionDisponible("Vitres teintées", 600);
     Garage::getInstance().ajouteOption(Option("1234", "Tah les jantes stylées", 800));
     ajouteOptionDisponible("Tah les jantes stylées", 800);
-    setPrix(Garage::getInstance().getProjetEnCours().getPrix());
+    Garage::getInstance().ajouteOption(Option("CQFD", "4 roues motrices", 2000));
+    ajouteOptionDisponible("4 roues motrices", 2000);
+    Garage::getInstance().ajouteModele(Modele("Ferrari SP48", 1000, (enum Moteur)0, 2000000, "ferrari.jpg"));
+    ajouteModeleDisponible("Ferrari SP48", 2000000);
 }
 
 ApplicGarageWindow::~ApplicGarageWindow()
@@ -739,8 +741,9 @@ void ApplicGarageWindow::on_pushButtonChoisirModele_clicked()
     else
     {
         Modele m(Garage::getInstance().getModele(getIndiceModeleSelectionneCombobox()));
-        setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
         Garage::getInstance().getProjetEnCours().setModele(m);
+        setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
+        afficheOptionsEnCours();
         setPrix(Garage::getInstance().getProjetEnCours().getPrix());
     }
 }
@@ -763,13 +766,7 @@ void ApplicGarageWindow::on_pushButtonAjouterOption_clicked()
         {
             Option op = Garage::getInstance().getOption(getIndiceOptionSelectionneeCombobox());
             Garage::getInstance().getProjetEnCours().AjouteOption(op);
-            for(int i = 0; i < NBR_OPTIONS; i++)
-            {
-                if(Garage::getInstance().getProjetEnCours()[i] != NULL)
-                    setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
-                else
-                    setTableOption(i, "", "", -1);
-            }    
+            afficheOptionsEnCours();   
             setPrix(Garage::getInstance().getProjetEnCours().getPrix());
         }
     }
@@ -854,16 +851,12 @@ void ApplicGarageWindow::on_pushButtonOuvrirProjet_clicked()
   // TO DO (étape 9)
     if(getNomProjetEnCours() != "")
     {
-        string NomProjet = getNomProjetEnCours();
         Garage::getInstance().resetProjetEnCours();
-        Garage::getInstance().getProjetEnCours().Load(NomProjet + ".car");
-        for(int i = 0; i < NBR_OPTIONS; i++)
-        {
-            if(Garage::getInstance().getProjetEnCours()[i] != NULL)
-                setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
-            else
-                setTableOption(i, "", "", -1);
-        }  
+        Garage::getInstance().getProjetEnCours().Load("Projets/" + getNomProjetEnCours() + ".car");
+        
+        Modele m(Garage::getInstance().getProjetEnCours().getModele());
+        setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
+        afficheOptionsEnCours();
     }
     else
         dialogueErreur("Nom Projet !", "Veuillez donner un nom au projet à ouvrir");
@@ -906,3 +899,13 @@ void ApplicGarageWindow::on_pushButtonVisualiserVoiture_clicked()
 
 }
 
+void ApplicGarageWindow::afficheOptionsEnCours()
+{
+    for(int i = 0; i < NBR_OPTIONS; i++)
+    {
+        if(Garage::getInstance().getProjetEnCours()[i] != NULL)
+            setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
+        else
+            setTableOption(i, "", "", -1);
+    }
+}

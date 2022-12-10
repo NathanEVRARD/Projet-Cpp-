@@ -66,6 +66,8 @@ public:
     int dialogueDemandeInt(const char *titre, const char *question);
     float dialogueDemandeFloat(const char *titre, const char *question);
 
+    //Fonctions perso
+    void afficheOptionsEnCours();
 private slots:
     void closeEvent(QCloseEvent *event);
 
