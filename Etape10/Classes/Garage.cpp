@@ -160,3 +160,91 @@ void Garage::resetProjetEnCours()
 
 	projetEnCours = v;
 }
+
+//-----------------------  FONCTIONS CSV  ---------------------------------
+
+void Garage::importeModeles(string nomFichier) // permet d'importer des modèles du fichier CSV dans Garage
+{
+    ifstream fichier(nomFichier);
+    string buffer;
+  	
+    if(fichier.is_open())
+    {
+        while(getline(fichier,buffer))
+        {
+        	Modele m;
+            char phrase[400];
+
+          	fflush(stdin);
+            strcpy(phrase,buffer.c_str());
+
+            m.setNom(strtok(phrase, ";"));
+            
+            m.setPuissance(atoi(strtok(NULL,";")));
+
+            string moteur = strtok(NULL,";");
+
+            if(moteur == "essence")
+            {
+                m.setMoteur((enum Moteur) 0);
+            }
+            if(moteur == "diesel")
+            {
+                m.setMoteur((enum Moteur) 1);
+            }
+            if(moteur == "electrique")
+            {
+                m.setMoteur((enum Moteur) 2);
+            }
+            if(moteur == "hybride")
+            {
+                m.setMoteur((enum Moteur) 3);
+            }
+
+            m.setImage(strtok(NULL,";"));
+
+            m.setPrixDeBase(atof(strtok(NULL,"\n")));
+
+            getInstance().ajouteModele(m);
+        }
+        fichier.close(); // Fermeture du fichier
+    }
+
+}
+
+void Garage::importeOptions(string nomFichier)
+{
+	ifstream fichier(nomFichier);
+    string buffer;
+  	
+    if(fichier.is_open())
+    {
+        while(getline(fichier,buffer))
+        {
+        	Option o;
+            char phrase[400];
+
+          	fflush(stdin);
+            strcpy(phrase,buffer.c_str());
+
+            o.setCode(strtok(phrase, ";"));
+            
+            o.setIntitule(strtok(NULL,";"));
+
+            o.setPrix(atof(strtok(NULL, "\n")));
+
+            getInstance().ajouteOption(o);
+        }
+        fichier.close(); // Fermeture du fichier
+    }
+}
+
+int Garage::nbModeles()
+{
+	return modeles.size();
+}
+
+int Garage::nbOptions()
+{
+	return options.size();
+}

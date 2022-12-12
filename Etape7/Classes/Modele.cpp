@@ -47,6 +47,8 @@ Modele::~Modele()
   #ifdef DEBUG
   cout << endl << "Destructeur ! (Modele)" << endl << endl;
   #endif
+
+  if(nom) delete nom;
 }
 
 //---------------  SETTERS ET GETTERS  ----------------------------------
@@ -202,7 +204,7 @@ void Modele::Load(ifstream& fichier)
   if(fichier.is_open())
   {
     fichier.read((char*)&nomLength, sizeof(int));
-    fichier.read((char*)&nom, nomLength);
+    fichier.read((char*)&nom, sizeof(char)*nomLength);
     fichier.read((char*)&puissance, sizeof(int));
     fichier.read((char*)&moteur, sizeof(enum Moteur));
     fichier.read((char*)&prix, sizeof(float));  

@@ -74,6 +74,22 @@ ApplicGarageWindow::ApplicGarageWindow(QWidget *parent) : QMainWindow(parent),ui
 
     // Importation des modeles (étape 10)
     // TO DO
+    Garage::getInstance().importeModeles("../FichiersCSV/Modeles.csv");
+    Garage::getInstance().importeOptions("../FichiersCSV/Options.csv");
+    Modele m;
+    Option o;
+    for(int i = 0; i < Garage::getInstance().nbModeles(); i++)
+    {
+        m = (Garage::getInstance().getModele(i));
+        ajouteModeleDisponible(m.getNom(), m.getPrixDeBase());
+    }
+    for(int i = 0; i < Garage::getInstance().nbOptions(); i++)
+    {
+        o = (Garage::getInstance().getOption(i));
+        ajouteOptionDisponible(o.getIntitule().c_str(), o.getPrix());
+    }
+
+    
 
     // Importation des options (étape 10)
     // TO DO
