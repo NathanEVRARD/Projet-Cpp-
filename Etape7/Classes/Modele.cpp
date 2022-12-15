@@ -179,14 +179,10 @@ void Modele::Save(ofstream& fichier) const
 {
   int nomLength = strlen(getNom());
 
-  #ifdef DEBUG
-    cout << "Save ! (Modele)" << endl;
-  #endif
-
   if(fichier.is_open())
   {
     fichier.write((char*)&nomLength, sizeof(int));
-    fichier.write((char*)&nom, strlen(getNom()));
+    fichier.write((char*)nom, sizeof(char)*nomLength);
     fichier.write((char*)&puissance, sizeof(int));
     fichier.write((char*)&moteur, sizeof(enum Moteur));
     fichier.write((char*)&prix, sizeof(float));
@@ -196,22 +192,21 @@ void Modele::Save(ofstream& fichier) const
 void Modele::Load(ifstream& fichier)
 {
   int nomLength;
-
-  #ifdef DEBUG
-    cout << "Load ! (Modele)" << endl;
-  #endif
-
+  char *nomTemp = NULL;
   if(fichier.is_open())
   {
     fichier.read((char*)&nomLength, sizeof(int));
-    fichier.read((char*)&nom, sizeof(char)*nomLength);
+    nomTemp = new char[nomLength + 1];
+    fichier.read((char*)nomTemp, sizeof(char)*nomLength);
     fichier.read((char*)&puissance, sizeof(int));
     fichier.read((char*)&moteur, sizeof(enum Moteur));
-    fichier.read((char*)&prix, sizeof(float));  
+    fichier.read((char*)&prix, sizeof(float));
+
+    setNom(nomTemp);
+    delete nomTemp;
   }
 
   
 }
-
 
 

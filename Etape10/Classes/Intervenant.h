@@ -10,7 +10,7 @@ class Intervenant : public Personne
 protected:
 	int numero;
 public:
-	static int numCourant;
+	static unsigned int numCourant;
 
 	Intervenant();
 	Intervenant(int, string, string);

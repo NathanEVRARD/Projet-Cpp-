@@ -1,6 +1,6 @@
 #include "Intervenant.h"
 
-int Intervenant::numCourant = 1;
+unsigned int Intervenant::numCourant = 1;
 
 //--------------------  CONSTRUCTEURS  ------------------------------
 

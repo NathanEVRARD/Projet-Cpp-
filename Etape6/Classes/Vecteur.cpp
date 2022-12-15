@@ -1,5 +1,7 @@
 #include "Vecteur.h"
 
+
+
 //------------  CONSTRUCTEURS  ------------------------
 
 template <class T> Vecteur<T>::Vecteur()
@@ -112,7 +114,7 @@ template <class T> T Vecteur<T>::retire(int e)
     {
         v[i] = v[i+1];
     }
-    _size-= 1;
+    _size--;
 
     return temp;
 }
@@ -130,7 +132,7 @@ template <class T> void Vecteur<T>::Affiche() const
 }
 
 //----------  INSTANCES  -----------------
-
+#include "Client.h"
 template class Vecteur<Client>;
 template class Vecteur<int>;
 //template class Vecteur<string>;

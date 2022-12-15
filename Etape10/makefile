@@ -64,7 +64,7 @@ Classes/Voiture.o:	Classes/Voiture.cpp Classes/Voiture.h
 	g++ -c Classes/Voiture.cpp -o Classes/Voiture.o 
 
 Classes/Modele.o:	Classes/Modele.cpp Classes/Modele.h
-	g++ -c Classes/Modele.cpp -o Classes/Modele.o
+	g++ -c Classes/Modele.cpp -o Classes/Modele.o -D DEBUG
 
 clean:
 	echo "Suppression des .o"

@@ -882,16 +882,10 @@ void ApplicGarageWindow::on_pushButtonOuvrirProjet_clicked()
 void ApplicGarageWindow::on_pushButtonNouveauProjet_clicked()
 {
   // TO DO (étape 9)
-    Garage::getInstance().resetProjetEnCours();
-    for(int i = 0; i < NBR_OPTIONS; i++)
-    {
-        if(Garage::getInstance().getProjetEnCours()[i] != NULL)
-            setTableOption(i, Garage::getInstance().getProjetEnCours()[i]->getCode(), Garage::getInstance().getProjetEnCours()[i]->getIntitule(), Garage::getInstance().getProjetEnCours()[i]->getPrix());
-        else
-            setTableOption(i, "", "", -1);
-    }
-    setModele("", 0, 0, 0, "");
-
+       Garage::getInstance().resetProjetEnCours();
+    afficheOptionsEnCours();
+    Modele m(Garage::getInstance().getProjetEnCours().getModele());
+    setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////

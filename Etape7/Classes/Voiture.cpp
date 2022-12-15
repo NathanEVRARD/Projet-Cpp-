@@ -316,17 +316,12 @@ void Voiture::Affiche()
 
 void Voiture::Save()const
 {
-
-    #ifdef DEBUG2
-        cout<<"Save ! (Voiture)"<<endl;
-    #endif
-
     int i , cpt;
-    int tailleNom = nomProjet.size();
+    int tailleNom = getNom().size();
 
-    string filename = nomProjet + ".car";
+    string filename = getNom() + ".car";
 
-    for(i = 0 , cpt = 0; i<5; i++)
+    for(i = 0 , cpt = 0; i<NBR_OPTIONS; i++)
     {
         if(options[i] != NULL)
         {
@@ -340,13 +335,12 @@ void Voiture::Save()const
     {    
         fichier1.write((char*)&tailleNom,sizeof(int));
         fichier1.write((char*)nomProjet.data(),sizeof(char)*tailleNom);
-
         modele.Save(fichier1);
 
         fichier1.write((char*)&cpt, sizeof(int));
         
 
-        for(int i=0;i<5;i++)
+        for(int i=0;i<NBR_OPTIONS;i++)
         {    
             if(options[i] != NULL)options[i]->Save(fichier1);
         }
@@ -357,15 +351,10 @@ void Voiture::Save()const
 
 void Voiture::Load(string NomFichier)
 {
-
-    #ifdef DEBUG2
-        cout<<"Load ! (Voiture)"<<endl;
-    #endif
-
     int tailleNom, i ,cpt;
     Option OptionTmp;
 
-    for(i=0; i<5;i++)
+    for(i=0; i<NBR_OPTIONS;i++)
     {
         if(options[i] != NULL)
         {    
@@ -378,7 +367,6 @@ void Voiture::Load(string NomFichier)
     if(fichier2.is_open())
     {    
         fichier2.read((char*)&tailleNom,sizeof(int));
-
         nomProjet.resize(tailleNom);
         fichier2.read((char*)nomProjet.data(),sizeof(char)*tailleNom);
 

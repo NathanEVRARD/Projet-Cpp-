@@ -155,11 +155,6 @@ void Option::Affiche(void) const
 
 void Option::Save(ofstream &fichier)const
 {
-
-    #ifdef DEBUG2
-        cout << "Save ! (Option) "<<endl;
-    #endif
-
     int tailleCode = getCode().size();
     int tailleIntitule = getIntitule().size();
 
@@ -179,10 +174,6 @@ void Option::Save(ofstream &fichier)const
 
 void Option::Load(ifstream &fichier)
 {    
-    #ifdef DEBUG2
-        cout<<"Load ! (Option)"<<endl;
-    #endif
-
     int tailleCode;
     int tailleIntitule;
 

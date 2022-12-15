@@ -7,7 +7,7 @@
 Modele::Modele(void) // Par défaut
 {
   #ifdef DEBUG
-  cout << "Constructeur défaut !" << endl << endl;
+  cout << "Constructeur par défaut ! (Modele)" << endl << endl;
   #endif
   nom = NULL;
   setNom("nom");
@@ -51,6 +51,13 @@ Modele::~Modele()
   #ifdef DEBUG
   cout << endl << "Destructeur ! (Modele)" << endl << endl;
   #endif
+
+  // if(nom != NULL)
+  // {
+  //   delete [] nom;
+  //   nom = NULL;
+  // }
+
 }
 
 //---------------  SETTERS ET GETTERS  ----------------------------------
@@ -59,7 +66,8 @@ void Modele::setNom(char const *n)
 {
   if(nom!=NULL)
   {
-    delete nom;
+    delete [] nom;
+    nom = NULL;
   }
 
   nom = new char[strlen(n)+1];
@@ -208,17 +216,23 @@ void Modele::Save(ofstream& fichier) const
 void Modele::Load(ifstream& fichier)
 {
   int nomLength, imageLength;
+  char *nomTemp = NULL;
 
   if(fichier.is_open())
   {
     fichier.read((char*)&nomLength, sizeof(int));
-    fichier.read(nom, sizeof(char)*nomLength);
+    nomTemp = new char[nomLength + 1];
+    fichier.read(nomTemp, sizeof(char)*nomLength);
     fichier.read((char*)&puissance, sizeof(int));
     fichier.read((char*)&moteur, sizeof(enum Moteur));
     fichier.read((char*)&prix, sizeof(float));  
     fichier.read((char*)&imageLength, sizeof(int));
     image.resize(imageLength);
     fichier.read((char*)image.data(), sizeof(char)*imageLength);
+
+    setNom(nomTemp);
+
+    delete nomTemp;
   }
 
   

@@ -2,7 +2,6 @@
 #define VECTEUR_H
 
 #include <iostream>
-#include "Client.h"
 #include "Vecteur.h"
 using namespace std;
 

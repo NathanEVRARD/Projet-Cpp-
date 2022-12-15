@@ -172,10 +172,6 @@ void Essai3()
   vec.insere(5);
   vec.insere(-1);
   vec.insere(0);
-  cout << "Vec[0] : " << vec[0] << endl;
-  cout << "Vec[1] : " << vec[1] << endl;
-  cout << "Vec[2] : " << vec[2] << endl;
-  cout << "Vec[3] : " << vec[3] << endl;
   cout << "On affiche grace a un iterateur..." << endl;
   Iterateur<int> it(vec);
   for (it.reset() ; !it.end() ; it++)

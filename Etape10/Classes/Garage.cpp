@@ -167,6 +167,7 @@ void Garage::importeModeles(string nomFichier) // permet d'importer des modèles
 {
     ifstream fichier(nomFichier);
     string buffer;
+    
   	
     if(fichier.is_open())
     {
@@ -174,11 +175,13 @@ void Garage::importeModeles(string nomFichier) // permet d'importer des modèles
         {
         	Modele m;
             char phrase[400];
+            char nomTemp[50];
 
           	fflush(stdin);
             strcpy(phrase,buffer.c_str());
 
-            m.setNom(strtok(phrase, ";"));
+            strcpy(nomTemp, strtok(phrase, ";"));
+            m.setNom(nomTemp);
             
             m.setPuissance(atoi(strtok(NULL,";")));
 

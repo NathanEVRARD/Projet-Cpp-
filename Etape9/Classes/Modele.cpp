@@ -51,6 +51,8 @@ Modele::~Modele()
   #ifdef DEBUG
   cout << endl << "Destructeur ! (Modele)" << endl << endl;
   #endif
+
+  if(nom) delete nom;
 }
 
 //---------------  SETTERS ET GETTERS  ----------------------------------
