@@ -34,8 +34,12 @@ public:
 	Employe* getEmployeRef() const;
 	string getNom() const;
 	int getNumero() const;
+	string Tuple() const;
 
 	Contrat& operator=(const Contrat&);
+
+	void Save(ofstream&);
+	void Load(ifstream&);
 
 };
 

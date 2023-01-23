@@ -60,6 +60,7 @@ public:
 	VecteurTrie<Employe>& getEmployes();
 
 	void ajouteContrat(const Contrat&);
+	Vecteur<Contrat>& getContrats();
 
 	void importeModeles(string);
 	void importeOptions(string);

@@ -58,6 +58,7 @@ public:
     void ajouteTupleTableContrats(string tuple);
     void videTableContrats();
     int getIndiceContratSelectionne();
+    void majTableContrats();
 
     // Boites de dialogues
     void dialogueMessage(const char *titre, const char *message);
@@ -70,6 +71,7 @@ public:
     void afficheOptionsEnCours();
     void majTableEmployes();
     void majTableClients();
+    void majProjetVoiture(string);
 private slots:
     void closeEvent(QCloseEvent *event);
 

@@ -7,7 +7,6 @@ template <class T> Iterateur<T>::Iterateur(const Vecteur<T>& vt) : vec(vt), pCur
 	#ifdef DEBUG
 		cout << "Constructeur d'initialisation ! (Iterateur)" << endl;
 	#endif
-	pCur = vt.v;
 }
 
 //-----------------  DESTRUCTEUR  ---------------------------------

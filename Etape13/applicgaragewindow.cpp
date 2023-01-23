@@ -109,6 +109,7 @@ ApplicGarageWindow::ApplicGarageWindow(QWidget *parent) : QMainWindow(parent),ui
 
     majTableEmployes();
     majTableClients();
+    majTableContrats();
 }
 
 ApplicGarageWindow::~ApplicGarageWindow()
@@ -882,6 +883,8 @@ void ApplicGarageWindow::on_pushButtonChoisirModele_clicked()
         dialogueErreur("Modele !", "Pas de modele selectionne !");
     else
     {
+        Garage::getInstance().resetProjetEnCours();
+        videTableOption();
         Modele m(Garage::getInstance().getModele(getIndiceModeleSelectionneCombobox()));
         Garage::getInstance().getProjetEnCours().setModele(m);
         setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
@@ -1019,19 +1022,109 @@ void ApplicGarageWindow::on_pushButtonNouveauContrat_clicked()
 {
   // TO DO (étape 13)
 
+    int indiceClient = getIndiceClientSelectionne();
+    if(Garage::employeLogged != NULL)
+    {
+        if(indiceClient == -1)
+        {
+            dialogueErreur("Erreur de sélection !", "Veuillez sélectionner un client !");
+        }
+        else
+        {
+
+            if(getNomProjetEnCours().size() != 0)
+            {
+                string nomFichier = getNomProjetEnCours() + ".car";
+
+                ifstream fichier("Projets/" + nomFichier, ios::in);
+
+                if(fichier.is_open())
+                {
+                    fichier.close();
+                    Contrat c;
+                    c.setEmployeRef(Employe(*Garage::employeLogged));
+                    c.setClientRef(Client(Garage::getInstance().getClients()[indiceClient]));
+                    c.setNom(getNomProjetEnCours());
+                    c.setNumero(Contrat::numCourant++);
+                    Garage::getInstance().ajouteContrat(c);
+                    majTableContrats();
+                }
+                else
+                    dialogueErreur("Erreur de contrat", "Veuillez créer un projet avant de créer le contrat");
+
+            }
+            else
+            {
+                dialogueErreur("Erreur de nom", "Veuillez choisir un nom de projet");
+            }
+
+        }
+    }
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ApplicGarageWindow::on_pushButtonSupprimerContrat_clicked()
 {
   // TO DO (étape 13)
+    int indiceContrat = getIndiceContratSelectionne();
 
+    if(indiceContrat != -1)
+    {
+        int i;
+
+        Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+
+        for(i = 0, itContrat.reset(); i < indiceContrat && !itContrat.end(); i++, itContrat++);
+
+        if(!itContrat.end())
+        {
+            Garage::getInstance().getContrats().retire(indiceContrat);
+            majTableContrats();
+        }
+
+
+    }
+    else
+        dialogueErreur("Erreur de suppression", "Veuillez choisir un contrat à supprimer !");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ApplicGarageWindow::on_pushButtonVisualiserVoiture_clicked()
 {
   // TO DO (étape 13)
+
+    int indiceContrat = getIndiceContratSelectionne();
+
+    if(indiceContrat != -1)
+    {
+        Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+
+        int i;
+
+        for(i = 0, itContrat.reset(); i < indiceContrat && !itContrat.end(); itContrat++, i++);
+
+        if(!itContrat.end())
+        {
+            
+            string nomFichier = Garage::getInstance().getContrats()[indiceContrat].getNom() + ".car" ;
+
+            ifstream fichier("Projets/" + nomFichier,ios::in);
+
+            if(!fichier.is_open())
+            {
+                dialogueErreur("Erreur de visualisation","Le projet que vous voulez visualiser n'existe plus !");
+                on_pushButtonSupprimerContrat_clicked();
+            }
+            else
+            {
+                fichier.close();
+                majProjetVoiture(nomFichier);
+            }
+        }
+    }
+    else
+        dialogueErreur("Erreur de visualisation", "Veuillez choisir un contrat à visualiser !");
 
 }
 
@@ -1064,4 +1157,28 @@ void ApplicGarageWindow::majTableClients()
     {
         ajouteTupleTableClients(((Client)it).Tuple());
     }
+}
+
+void ApplicGarageWindow::majTableContrats()
+{
+    videTableContrats();
+    Iterateur<Contrat> it(Garage::getInstance().getContrats());
+    for(it.reset(); !it.end(); it++)
+    {
+        ajouteTupleTableContrats(((Contrat)it).Tuple());
+        cout << endl << ((Contrat)it).Tuple() << endl;
+    }
+}
+
+void ApplicGarageWindow::majProjetVoiture(string nomFichier) // met à jour l'interface graphique avec les infos du fichier .car récupérée
+{   
+    videTableOption();
+
+    Garage::getInstance().getProjetEnCours().Load(nomFichier); 
+    setNomProjetEnCours(Garage::getInstance().getProjetEnCours().getNom());
+    Modele m(Garage::getInstance().getProjetEnCours().getModele());
+    setModele(m.getNom(),m.getPuissance(),m.getMoteur(),m.getPrixDeBase(),m.getImage());
+    setPrix(Garage::getInstance().getProjetEnCours().getPrix());
+
+    afficheOptionsEnCours();
 }

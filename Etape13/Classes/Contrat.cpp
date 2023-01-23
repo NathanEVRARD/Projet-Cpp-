@@ -1,4 +1,8 @@
 #include "Contrat.h"
+#include <cstring>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 int Contrat::numCourant = 1;
 
@@ -105,6 +109,62 @@ int Contrat::getNumero() const
 {
 	return numero;
 }
+
+string Contrat::Tuple() const
+{
+	string tuple =  to_string(Contrat::getNumero()) + ";" + getEmployeRef()->getNom() + " " + getEmployeRef()->getPrenom() + ";" + getClientRef()->getNom() + " " + getClientRef()->getPrenom() + ";" + Contrat::getNom();
+
+	return tuple;
+}
+
+void Contrat::Save(ofstream &fichier)
+{
+	cout<<"<<Save de Contrat>>"<<endl;
+	if(fichier.is_open())
+	{
+		int n;
+
+		fichier.write((char *)&numero,sizeof(int));
+
+		n = getEmployeRef()->getNumero();
+		fichier.write((char *)&n,sizeof(int)); // Numéro du vendeur
+		n = getClientRef()->getNumero();
+
+		fichier.write((char *)&n,sizeof(int)); // Numéro du client
+
+		n = getNom().size();
+		fichier.write((char *)&n,sizeof(int)); // Taille du nom du projet
+		fichier.write((char *)nom.data(),sizeof(char)*n);// Nom du projet
+	}
+}	
+
+void Contrat::Load(ifstream &fichier)
+{	
+	cout<<"<<Load de Contrat>>"<<endl;
+	if(fichier.is_open())
+	{
+		// récupération info vendeur
+		int num;
+		fichier.read((char *)&numero,sizeof(int));
+		fichier.read((char *)&num,sizeof(int)); // Numéro du vendeur
+		employeRef = new Employe;
+		getEmployeRef()->setNumero(numero);
+		
+		// récupération info client
+		fichier.read((char *)&num,sizeof(int)); // Numéro du client
+		clientRef = new Client;
+		getClientRef()->setNumero(numero);
+
+		// récupération nom projet
+		int taille;
+		string chaine;
+		fichier.read((char*)&taille,sizeof(int));
+		chaine.resize(taille);
+		fichier.read((char *)chaine.data(),sizeof(char)*taille);
+		setNom(chaine);
+
+	}
+}
 //---------------------  OPERATEURS  ---------------------------
 
 Contrat& Contrat::operator=(const Contrat& c)
@@ -112,6 +172,7 @@ Contrat& Contrat::operator=(const Contrat& c)
 	setNom(c.getNom());
 	setEmployeRef(*(c.getEmployeRef()));
 	setClientRef(*(c.getClientRef()));
+	setNumero(c.getNumero());
 
 	return (*this);
 }

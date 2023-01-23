@@ -308,6 +308,21 @@ void Garage::Save(ofstream &fichier)
             }
         }
 
+        fichier.write((char*)&Contrat::numCourant,sizeof(int)); // Enregistre le numCourant de Contrat
+
+        nbr = contrats.size();
+        fichier.write((char *)&nbr,sizeof(int)); // Enregistre le nombre de contrats
+
+        if(nbr!=0)
+        {
+            Iterateur<Contrat>itC(contrats);
+            for(itC.reset();!itC.end();itC++)
+            {
+                Contrat c((Contrat)itC);
+                c.Save(fichier); // Enregistre toutes les informations relative au client
+            }
+        }
+
     }    
 }
 void Garage::Load(ifstream &fichier)
@@ -340,6 +355,32 @@ void Garage::Load(ifstream &fichier)
             c.Load(fichier);
             clients.insere(c);
         }
+
+        fichier.read((char *)&Contrat::numCourant,sizeof(int)); // Récupère le numCourant de Contrat
+
+        int nbrContrat;
+        fichier.read((char *)&nbrContrat,sizeof(int));
+        for(int i=0; i<nbrContrat;i++)
+        {
+            Contrat c;
+            c.Load(fichier);
+            
+            Iterateur<Employe>itE(employes);
+            for(itE.reset();!itE.end() && c.getEmployeRef()->getNumero() != ((Employe)itE).getNumero();itE++);
+            if(c.getEmployeRef()->getNumero() == ((Employe)itE).getNumero())
+            {
+                c.setEmployeRef((Employe)itE);
+            }
+            Iterateur<Client>itC(clients);
+            for(itC.reset();!itC.end() && c.getClientRef()->getNumero() != ((Client)itC).getNumero();itC++);
+            if(c.getClientRef()->getNumero() == ((Client)itC).getNumero())
+            {
+                c.setClientRef((Client)itC);
+            }
+            contrats.insere(c);
+        }
+
+
 
     }
 }
