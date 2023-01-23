@@ -11,23 +11,32 @@ using namespace std;
 class Contrat
 {
 private:
-	Client& clientRef;
-	Employe& employeRef;
+	int numero;
+	Client* clientRef;
+	Employe* employeRef;
 	string nom;
 public:
+	static int numCourant;
+	friend ostream& operator<<(ostream&, const Contrat&);
+
 	Contrat();
-	Contrat(Employe&, Client&, string);
+	Contrat(Employe&, Client&, string, int);
 	Contrat(const Contrat&);
 
 	~Contrat();
 
-	void setClientRef(Client&);
-	void setEmployeRef(Employe&);
+	void setClientRef(const Client&);
+	void setEmployeRef(const Employe&);
 	void setNom(string);
+	void setNumero(int);
 
-	Client& getClientRef() const;
-	Employe& getEmployeRef() const;
+	Client* getClientRef() const;
+	Employe* getEmployeRef() const;
 	string getNom() const;
+	int getNumero() const;
+
+	Contrat& operator=(const Contrat&);
+
 };
 
 #endif

@@ -154,6 +154,18 @@ VecteurTrie<Employe>& Garage::getEmployes()
 	return employes;
 }
 
+//-----------------------  METHODES CONTRAT  ----------------------------
+
+void Garage::ajouteContrat(const Contrat& c)
+{
+    contrats.insere(c);
+}
+
+Vecteur<Contrat>& Garage::getContrats()
+{
+    return contrats;
+}
+
 //------------------------  FONCTIONS STATIQUES  -------------------------
 
 Garage& Garage::getInstance()

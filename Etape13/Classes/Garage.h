@@ -59,6 +59,8 @@ public:
 	void supprimeEmployeParNumero(int num);
 	VecteurTrie<Employe>& getEmployes();
 
+	void ajouteContrat(const Contrat&);
+
 	void importeModeles(string);
 	void importeOptions(string);
 

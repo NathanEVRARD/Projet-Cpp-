@@ -3,6 +3,7 @@
 #include "Classes/Garage.h"
 #include "Classes/OptionException.h"
 #include "Classes/PasswordException.h"
+#include "Classes/Contrat.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <sstream>

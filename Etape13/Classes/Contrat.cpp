@@ -1,5 +1,7 @@
 #include "Contrat.h"
 
+int Contrat::numCourant = 1;
+
 //---------------  CONSTRUCTEURS  -------------------------
 
 Contrat::Contrat()
@@ -9,19 +11,24 @@ Contrat::Contrat()
 	#endif
 
 	setNom("nom");
-	setEmployeRef(NULL);
-	setClientRef(NULL);
+	setNumero(0);
+	employeRef = NULL;
+	clientRef = NULL;
 }
 
-Contrat::Contrat(Employe& e, Client& c, string n)
+Contrat::Contrat(Employe& e, Client& c, string n, int num)
 {
 	#ifdef DEBUG
 		cout << "Contructeur d'initialisation ! (Contrat)" << endl;
 	#endif
 
+
+	employeRef = NULL;
+	clientRef = NULL;
 	setNom(n);
 	setEmployeRef(e);
 	setClientRef(c);
+	setNumero(num);
 }
 
 Contrat::Contrat(const Contrat& c)
@@ -30,9 +37,13 @@ Contrat::Contrat(const Contrat& c)
 		cout << "Contructeur de copie ! (Contrat)" << endl;
 	#endif
 
+	employeRef = NULL;
+	clientRef = NULL;
+
 	setNom(c.getNom());
-	setEmployeRef(c.getEmployeRef());
-	setClientRef(c.getClientRef());
+	setEmployeRef(*(c.getEmployeRef()));
+	setClientRef(*(c.getClientRef()));
+	setNumero(c.getNumero());
 }
 
 //--------------------  DESTRUCTEUR  ------------------------
@@ -42,36 +53,72 @@ Contrat::~Contrat()
 	#ifdef DEBUG
 		cout << "Destructeur ! (Contrat)" << endl;
 	#endif
+
+	if(employeRef != NULL)
+		delete employeRef;
+	if(clientRef != NULL)
+		delete clientRef;
 }
 
 //--------------------  SETTERS ET GETTERS ----------------------
 
-void setNom(string n)
+void Contrat::setNom(string n)
 {
 	nom = n;
 }
 
-void setEmployeRef(Employe& e)
+void Contrat::setEmployeRef(const Employe& e)
 {
-	employeRef = e;
+	if(employeRef != NULL)
+		delete employeRef;
+	employeRef = new Employe(e);
 }
 
-void setClientRef(Client& c)
+void Contrat::setClientRef(const Client& c)
 {
-	clientRef = c;
+	if(clientRef != NULL)
+		delete clientRef;
+	clientRef = new Client(c);
 }
 
-string getNom() const
+void Contrat::setNumero(int n)
+{
+	numero = n;
+}
+
+string Contrat::getNom() const
 {
 	return nom;
 }
 
-Employe& getEmployeRef() const
+Employe* Contrat::getEmployeRef() const
 {
 	return employeRef;
 }
 
-Client& getClientRef() const
+Client* Contrat::getClientRef() const
 {
 	return clientRef;
+}
+
+int Contrat::getNumero() const
+{
+	return numero;
+}
+//---------------------  OPERATEURS  ---------------------------
+
+Contrat& Contrat::operator=(const Contrat& c)
+{
+	setNom(c.getNom());
+	setEmployeRef(*(c.getEmployeRef()));
+	setClientRef(*(c.getClientRef()));
+
+	return (*this);
+}
+
+ostream& operator<<(ostream& s, const Contrat& c)
+{
+	s << "Numéro du contrat : " << c.getNumero() << endl << " Employé : " << c.getEmployeRef()->getNom() << " " << c.getEmployeRef()->getPrenom() << endl << c.getClientRef()->getNom() << " " << c.getClientRef()->getPrenom() << endl << "Nom du contrat : " << c.getNom() << endl;
+
+	return s;
 }

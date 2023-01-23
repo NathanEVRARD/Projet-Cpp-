@@ -143,4 +143,4 @@ template class Vecteur<int>;
 template class Vecteur<Employe>;
 template class Vecteur<Modele>;
 template class Vecteur<Option>;
-// template class Vecteur<Contrat>;
+template class Vecteur<Contrat>;
