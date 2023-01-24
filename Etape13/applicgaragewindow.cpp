@@ -10,6 +10,9 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <filesystem>
+#include <cstdint>
+#include <fstream>
 using namespace std;
 
 int indOption = 0;
@@ -654,15 +657,62 @@ void ApplicGarageWindow::closeEvent(QCloseEvent *event)
 void ApplicGarageWindow::on_actionNouveau_modele_triggered()
 {
   // Saisie des informations (aucune vérification n'est faite --> à gérer si vous voulez)
-  string nomModele = dialogueDemandeTexte("Nouveau modèle","Nom :");
-  int puissance = dialogueDemandeInt("Nouveau modèle","Puissance :");
-  int moteur = dialogueDemandeInt("Nouveau modèle :","Moteur (0=essence,1=diesel,2=électrique,3=hybride) :");
-  float prixDeBase = dialogueDemandeFloat("Nouveau modèle","Prix de base :");
-  string image = dialogueDemandeTexte("Nouveau modèle","Nom du fichier de l'image :");
+  string nomModele, image, nomFichier = "../FichiersCSV/Modeles.csv";
+  int erreurModele = 0, erreurPuissance = 0, erreurMoteur = 0, erreurImage = 0, erreurPrix = 0;
+  int puissance;
+  int moteur;
+  float prixDeBase;
+  ifstream fichierImage;
+  do
+  {
+    if(erreurModele)
+        dialogueErreur("Erreur modèle", "Veuillez choisir un nom de modèle !");
+    nomModele = dialogueDemandeTexte("Nouveau modèle","Nom :");
+    erreurModele = 1;
+  }while(nomModele == "");
+  do
+  {
+    if(erreurPuissance)
+        dialogueErreur("Erreur puissance", "Veuillez choisir une puissance supérieure à 0 !");
+    puissance= dialogueDemandeInt("Nouveau modèle","Puissance :");
+    erreurPuissance = 1;
+  }while(puissance <= 0);
+  do
+  {
+    if(erreurMoteur)
+        dialogueErreur("Erreur moteur", "Veuillez choisir un chiffre entre 0 et 3 !");
+    moteur = dialogueDemandeInt("Nouveau modèle :","Moteur (0=essence,1=diesel,2=électrique,3=hybride) :");
+    erreurMoteur = 1;
+  }while(moteur < 0 || moteur > 4);
+
+  do
+  {
+    if(erreurPrix)
+        dialogueErreur("Erreur prix", "Veuillez choisir un prix positif et non nul !");
+    prixDeBase = dialogueDemandeFloat("Nouveau modèle","Prix de base :");
+    erreurPrix = 1;
+  }while(prixDeBase <= 0);
+
+  do
+  {
+    if(fichierImage.is_open())
+        fichierImage.close();
+    if(erreurImage)
+        dialogueErreur("Erreur image", "Veuillez choisir un chemin d'image non vide !");
+    image = dialogueDemandeTexte("Nouveau modèle","Nom du fichier de l'image :");
+    fichierImage.open("images/" + image);
+    erreurImage = 1;
+  }while(!fichierImage);
 
   // TO DO (étape 9)
-  Garage::getInstance().ajouteModele(Modele(nomModele.c_str(), puissance, (enum Moteur)moteur, prixDeBase, image));
+  Modele m(nomModele.c_str(), puissance, (enum Moteur)moteur, prixDeBase, image);
+  Garage::getInstance().ajouteModele(m);
   ajouteModeleDisponible(nomModele.c_str(), prixDeBase);
+
+  ofstream fichier(nomFichier, ios::app);
+
+  fichier << nomModele << ";" << to_string(puissance) << ";" << m.getStrMoteur() << ";" << image << ";" << prixDeBase << endl;
+  fichier.close();
 
 }
 
@@ -673,12 +723,22 @@ void ApplicGarageWindow::on_actionNouvelle_option_triggered()
   string code = dialogueDemandeTexte("Nouvelle option","Code :");
   string intitule = dialogueDemandeTexte("Nouvelle option","Intitule :");
   float prix = dialogueDemandeFloat("Nouvelle option","Prix :");
+  string nomFichier = "../FichiersCSV/Options.csv";
 
   // TO DO (étape 9)
   try
   {
-      Garage::getInstance().ajouteOption(Option(code, intitule, prix));
+      Option o(code, intitule, prix);
+      Garage::getInstance().ajouteOption(o);
       ajouteOptionDisponible(intitule.c_str(), prix);
+      ofstream fichier(nomFichier, ios::out | ios::app);
+
+      if(fichier.is_open())
+      {
+        fichier << code << ";" << intitule << ";" << prix << endl;
+        fichier.close();
+      }
+
   }
   catch(OptionException &o)
   {

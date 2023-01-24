@@ -16,6 +16,16 @@ Garage::Garage()
 	#endif
 
 	ajouteEmploye("ADMIN", "ADMIN", "ADMIN", Employe::ADMINISTRATIF);
+
+    Iterateur<Employe> itEmploye(getInstance().getEmployes());
+    int i;
+
+    for(itEmploye.reset(), i = 0; !itEmploye.end() && ((Employe)itEmploye).getNumero() != 0; itEmploye++, i++);
+
+    if(!itEmploye.end())
+    {
+        getInstance().getEmployes()[i].setMotDePasse("student1");
+    }
 }
 
 //----------------------  DESTRUCTEUR  --------------------------------
@@ -292,7 +302,6 @@ void Garage::Save(ofstream &fichier)
         for(itE.reset();!itE.end();itE++)
         {
             Employe e = (Employe)itE;
-            cout<<e<<endl;
             e.Save(fichier); // Enregistre toute les informations relatives au employé
         }
         nbr = clients.size();
@@ -304,7 +313,6 @@ void Garage::Save(ofstream &fichier)
             for(itC.reset();!itC.end();itC++)
             {
                 Client c = (Client)itC;
-                cout<<c<<endl;
                 c.Save(fichier); // Enregistre toutes les informations relative au client
             }
         }
@@ -337,13 +345,11 @@ void Garage::Load(ifstream &fichier)
         // récupère le nombre d'employés présent dans le fichier.
         int nbrEmploye;
         fichier.read((char *)&nbrEmploye,sizeof(int));
-        cout<<endl<<"taille vec employes = "<<nbrEmploye;
         // récupère chaques employés et l'insère dans le vecteurs d'employés
         for(int i = 0; i<nbrEmploye;i++)
         {
             Employe e;
             e.Load(fichier);
-            cout<<endl<<"EMPLOYE["<<i<<"] :"<< e;
             employes.insere(e);
                 
         }
