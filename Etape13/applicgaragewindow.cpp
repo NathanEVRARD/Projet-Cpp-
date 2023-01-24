@@ -698,11 +698,14 @@ void ApplicGarageWindow::on_actionNouveau_modele_triggered()
     if(fichierImage.is_open())
         fichierImage.close();
     if(erreurImage)
-        dialogueErreur("Erreur image", "Veuillez choisir un chemin d'image non vide !");
+        dialogueErreur("Erreur image", "Veuillez choisir un chemin d'image valide !");
     image = dialogueDemandeTexte("Nouveau modèle","Nom du fichier de l'image :");
     fichierImage.open("images/" + image);
     erreurImage = 1;
   }while(!fichierImage);
+
+  if(fichierImage.is_open())
+        fichierImage.close();
 
   // TO DO (étape 9)
   Modele m(nomModele.c_str(), puissance, (enum Moteur)moteur, prixDeBase, image);
