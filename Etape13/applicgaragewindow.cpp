@@ -729,8 +729,25 @@ void ApplicGarageWindow::on_actionSupprimerEmploye_par_numero_triggered()
         faux = 1;
     }while(num < 0);
 
-    Garage::getInstance().supprimeEmployeParNumero(num);
-    majTableEmployes();
+    Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+    Iterateur<Employe> itEmploye(Garage::getInstance().getEmployes());
+
+    for(itEmploye.reset(); !itEmploye.end() && ((Employe)itEmploye).getNumero() != num; itEmploye++);
+
+    if(!itEmploye.end())
+    {
+        for(itContrat.reset(); !itContrat.end() && ((Contrat)itContrat).getEmployeRef()->getNumero() != ((Employe)itEmploye).getNumero(); itContrat++);
+
+        if(itContrat.end())
+        {
+            Garage::getInstance().supprimeEmployeParNumero(num);
+            majTableEmployes();
+        }
+        else
+            dialogueErreur("Erreur de suppression", "Vous ne pouvez pas supprimer un employé avec un contrat actif !");
+    }
+    else
+        dialogueErreur("Erreur de suppression", "L'employé sélectionné n'existe plus !");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -742,8 +759,17 @@ void ApplicGarageWindow::on_actionSupprimerEmploye_selection_triggered()
         dialogueErreur("Erreur de sélection", "Aucun employé sélectionné");
     else
     {
-        Garage::getInstance().supprimeEmployeParIndice(indice);
-        majTableEmployes();
+        Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+
+        for(itContrat.reset(); !itContrat.end() && ((Contrat)itContrat).getEmployeRef()->getNumero() != Garage::getInstance().getEmployes()[indice].getNumero(); itContrat++);
+
+        if(itContrat.end())
+        {
+            Garage::getInstance().supprimeEmployeParIndice(indice);
+            majTableEmployes();
+        }
+        else
+            dialogueErreur("Erreur de suppression", "Vous ne pouvez pas supprimer un employé avec un contrat actif !");
     }
 }
 
@@ -782,8 +808,26 @@ void ApplicGarageWindow::on_actionSupprimerClient_par_numero_triggered()
         faux = 1;
     }while(num < 0);
 
-    Garage::getInstance().supprimeClientParNumero(num);
-    majTableClients();
+    Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+    Iterateur<Client> itClient(Garage::getInstance().getClients());
+
+    for(itClient.reset(); !itClient.end() && ((Client)itClient).getNumero() != num; itClient++);
+
+    if(!itClient.end())
+    {
+        for(itContrat.reset(); !itContrat.end() && ((Contrat)itContrat).getClientRef()->getNumero() != ((Client)itClient).getNumero(); itContrat++);
+
+        if(itContrat.end())
+        {
+            Garage::getInstance().supprimeClientParNumero(num);
+            majTableClients();
+        }
+        else
+            dialogueErreur("Erreur de suppression", "Vous ne pouvez pas supprimer un client avec un contrat actif !");
+    }
+    else
+        dialogueErreur("Erreur de suppression", "Le client sélectionné n'existe plus !");
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -795,8 +839,18 @@ void ApplicGarageWindow::on_actionSupprimerClient_selection_triggered()
         dialogueErreur("Erreur de sélection", "Aucun client sélectionné");
     else
     {
-        Garage::getInstance().supprimeClientParIndice(indice);
-        majTableClients();
+        Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+
+        for(itContrat.reset(); !itContrat.end() && ((Contrat)itContrat).getClientRef()->getNumero() != Garage::getInstance().getClients()[indice].getNumero(); itContrat++);
+
+        if(itContrat.end())
+        {
+            Garage::getInstance().supprimeClientParIndice(indice);
+            majTableClients();
+        }
+        else
+            dialogueErreur("Erreur de suppression", "Vous ne pouvez pas supprimer un client avec un contrat actif !");
+
     }
 }
 
