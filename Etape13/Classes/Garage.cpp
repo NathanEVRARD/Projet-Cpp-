@@ -1,5 +1,6 @@
 #include "Garage.h"
 #include "PasswordException.h"
+#include "Contrat.h"
 #include <cstring>
 #include <fstream>
 

@@ -724,8 +724,8 @@ void ApplicGarageWindow::on_actionSupprimerEmploye_par_numero_triggered()
     do
     {
         if(faux)
-            dialogueErreur("Erreur", "Veuillez choisir un numéro positif");
-        num = dialogueDemandeInt("Suppression d'un employé", "Donnez le numéro de l'employé");
+            dialogueErreur("Erreur de suppression", "Veuillez choisir un numéro positif");
+        num = dialogueDemandeInt("Erreur de suppression", "Donnez le numéro de l'employé");
         faux = 1;
     }while(num < 0);
 
@@ -758,7 +758,7 @@ void ApplicGarageWindow::on_actionAjouterClient_triggered()
     do
     {
         if(faux)
-            dialogueErreur("Erreur", "Entrez un numéro de gsm valide !");
+            dialogueErreur("Erreur de client !", "Entrez un numéro de gsm valide !");
         gsm = dialogueDemandeTexte("Nouveau client", "Gsm : ");
         faux = 1;
     }while(gsm.size() != 10);
@@ -777,8 +777,8 @@ void ApplicGarageWindow::on_actionSupprimerClient_par_numero_triggered()
     do
     {
         if(faux)
-            dialogueErreur("Erreur", "Veuillez choisir un numéro positif");
-        num = dialogueDemandeInt("Suppression d'un client", "Donnez le numéro du client");
+            dialogueErreur("Erreur de suppression !", "Veuillez choisir un numéro positif");
+        num = dialogueDemandeInt("Erreur de suppression !", "Donnez le numéro du client");
         faux = 1;
     }while(num < 0);
 
@@ -880,7 +880,7 @@ void ApplicGarageWindow::on_pushButtonChoisirModele_clicked()
 {
   // TO DO (étape 9)
     if(getIndiceModeleSelectionneCombobox() == -1)
-        dialogueErreur("Modele !", "Pas de modele selectionne !");
+        dialogueErreur("Modèle !", "Pas de modèle selectionne !");
     else
     {
         Garage::getInstance().resetProjetEnCours();
@@ -1034,20 +1034,29 @@ void ApplicGarageWindow::on_pushButtonNouveauContrat_clicked()
 
             if(getNomProjetEnCours().size() != 0)
             {
-                string nomFichier = getNomProjetEnCours() + ".car";
+                string nomFichier = "Projets/" + getNomProjetEnCours() + ".car";
 
-                ifstream fichier("Projets/" + nomFichier, ios::in);
+                ifstream fichier(nomFichier, ios::in);
 
                 if(fichier.is_open())
                 {
-                    fichier.close();
-                    Contrat c;
-                    c.setEmployeRef(Employe(*Garage::employeLogged));
-                    c.setClientRef(Client(Garage::getInstance().getClients()[indiceClient]));
-                    c.setNom(getNomProjetEnCours());
-                    c.setNumero(Contrat::numCourant++);
-                    Garage::getInstance().ajouteContrat(c);
-                    majTableContrats();
+                    Iterateur<Contrat> itContrat(Garage::getInstance().getContrats());
+
+                    for(itContrat.reset(); !itContrat.end() && ((Contrat)itContrat).getNom() != getNomProjetEnCours(); itContrat++);
+
+                    if(itContrat.end())
+                    {
+                        fichier.close();
+                        Contrat c;
+                        c.setEmployeRef(Employe(*Garage::employeLogged));
+                        c.setClientRef(Client(Garage::getInstance().getClients()[indiceClient]));
+                        c.setNom(getNomProjetEnCours());
+                        c.setNumero(Contrat::numCourant++);
+                        Garage::getInstance().ajouteContrat(c);
+                        majTableContrats();
+                    }
+                    else
+                        dialogueErreur("Erreur de contrat", "Ce nom de contrat existe déjà");
                 }
                 else
                     dialogueErreur("Erreur de contrat", "Veuillez créer un projet avant de créer le contrat");
@@ -1107,9 +1116,11 @@ void ApplicGarageWindow::on_pushButtonVisualiserVoiture_clicked()
         if(!itContrat.end())
         {
             
-            string nomFichier = Garage::getInstance().getContrats()[indiceContrat].getNom() + ".car" ;
+            string nomFichier = "Projets/" + Garage::getInstance().getContrats()[indiceContrat].getNom() + ".car" ;
 
-            ifstream fichier("Projets/" + nomFichier,ios::in);
+            ifstream fichier(nomFichier,ios::in);
+
+            cout << nomFichier << endl;
 
             if(!fichier.is_open())
             {

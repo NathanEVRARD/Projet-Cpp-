@@ -62,7 +62,7 @@ string Client::Tuple()
 	char res[80];
 	string resultat;
 
-	sprintf(res, "%d;%s;%s;%s", getNumero(), getNom().c_str(), getPrenom().c_str(), getGsm().c_str());
+	sprintf(res, "%d;%s;%s;%s", getNumero(), getNom().c_str(), getPrenom().c_str(), afficheGsm().c_str());
 	resultat = res;
 
 	return resultat;
@@ -78,6 +78,31 @@ string Client::ToString()
 	resultat = res;
 
 	return resultat;
+}
+
+string Client::afficheGsm() const
+{
+	string temp;
+	temp.resize(getGsm().size() + 3);
+
+	int i, j;
+
+	for(i = 0, j = 0; i < getGsm().size(); i++, j++)
+	{
+		if(j == 4)
+		{
+			temp[j] = '/';
+			j++;
+		}
+		if(j == 7 || j == 10)
+		{
+			temp[j] = '.';
+			j++;
+		}
+		temp[j] = getGsm()[i];
+	}
+
+	return temp;
 }
 
 void Client::Save(ofstream& fichier)

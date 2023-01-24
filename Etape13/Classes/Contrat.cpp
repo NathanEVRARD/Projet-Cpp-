@@ -148,12 +148,12 @@ void Contrat::Load(ifstream &fichier)
 		fichier.read((char *)&numero,sizeof(int));
 		fichier.read((char *)&num,sizeof(int)); // Numéro du vendeur
 		employeRef = new Employe;
-		getEmployeRef()->setNumero(numero);
+		getEmployeRef()->setNumero(num);
 		
 		// récupération info client
 		fichier.read((char *)&num,sizeof(int)); // Numéro du client
 		clientRef = new Client;
-		getClientRef()->setNumero(numero);
+		getClientRef()->setNumero(num);
 
 		// récupération nom projet
 		int taille;

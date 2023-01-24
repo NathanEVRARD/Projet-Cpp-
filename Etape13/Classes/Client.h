@@ -22,6 +22,7 @@ public:
 	void setGsm(string);
 
 	string getGsm() const;
+	string afficheGsm() const;
 
 	string Tuple();
 	string ToString();
