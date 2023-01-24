@@ -1118,6 +1118,7 @@ void ApplicGarageWindow::on_pushButtonOuvrirProjet_clicked()
         
         Modele m(Garage::getInstance().getProjetEnCours().getModele());
         setModele(m.getNom(), m.getPuissance(), m.getMoteur(), m.getPrixDeBase(), m.getImage());
+        setPrix(Garage::getInstance().getProjetEnCours().getPrix());
         afficheOptionsEnCours();
     }
     else
